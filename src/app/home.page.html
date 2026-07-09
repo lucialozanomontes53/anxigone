@@ -1,0 +1,19 @@
+<div class="home-page">
+  <p class="home-page__intro">
+    Un espacio al que volver cuando la ansiedad se hace grande, o cuando solo necesitas ordenar tu
+    mente.
+  </p>
+
+  <nav class="home-page__links" aria-label="Herramientas disponibles">
+    @for (link of featureLinks; track link.path) {
+      <a
+        class="home-page__card"
+        [class.home-page__card--emphasis]="link.emphasis"
+        [routerLink]="link.path"
+      >
+        <span class="home-page__card-title">{{ link.title }}</span>
+        <span class="home-page__card-description">{{ link.description }}</span>
+      </a>
+    }
+  </nav>
+</div>

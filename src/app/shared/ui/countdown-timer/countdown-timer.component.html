@@ -1,0 +1,22 @@
+<div class="countdown-timer">
+  @if (label()) {
+    <p class="countdown-timer__label">{{ label() }}</p>
+  }
+
+  <div
+    class="countdown-timer__ring"
+    role="progressbar"
+    [attr.aria-valuenow]="secondsLeft()"
+    [attr.aria-valuemin]="0"
+    [attr.aria-valuemax]="durationSec()"
+  >
+    <span class="countdown-timer__time">{{ formattedTime() }}</span>
+  </div>
+
+  <div class="countdown-timer__actions">
+    <button type="button" class="button button--primary" (click)="start()" [disabled]="isRunning()">
+      Empezar
+    </button>
+    <button type="button" class="button" (click)="stop()" [disabled]="!isRunning()">Detener</button>
+  </div>
+</div>

@@ -43,7 +43,7 @@ No asumas que las instrucciones del encargo original se repetirán: este documen
 | Persistencia | IndexedDB vía [`idb`](https://github.com/jakearchibald/idb) | Encapsulado en `core/persistence`, nunca importado fuera de ahí. |
 | Router | Angular Router, lazy `loadChildren`/`loadComponent` por feature, `@defer` en vistas pesadas | |
 | Estilos | SCSS, mobile-first, custom properties como design tokens (`src/styles/_tokens.scss`) | Soporta `prefers-color-scheme: dark` y `prefers-reduced-motion`. |
-| CDK | Overlay, A11y (`FocusTrap`, `LiveAnnouncer`), Layout (`BreakpointObserver`), Drag-Drop | Se añade a medida que cada feature lo necesita. |
+| CDK | Overlay, A11y (`FocusTrap`, `LiveAnnouncer`), Layout (`BreakpointObserver`), Drag-Drop | Se añade a medida que cada feature lo necesita. `LiveAnnouncer` ya en uso (respiración, grounding, cuenta atrás). |
 | PWA | `@angular/pwa` (service worker + manifest) | App 100% offline, sin backend. |
 | Testing | Vitest (builder nativo `@angular/build:unit-test`) + Angular Testing Library + `fake-indexeddb` | Cobertura mínima 90% (`coverageThresholds` en `angular.json`). |
 | Lint | ESLint 9 (flat config) + `angular-eslint` + `eslint-plugin-boundaries` | Boundaries fuerza los límites entre `core`/`shared`/`features`. |
@@ -70,9 +70,12 @@ presentation (pages/components) → application (stores/use-cases) → domain (m
 - **Nombres de archivo**: `kebab-case`, sufijo por tipo (`*.model.ts`, `*.store.ts`, `*.repository.ts`, `*.use-case.ts`, `*.component.ts` solo si no es una page).
 - **Selectores**: componentes `app-kebab-case` (elemento), directivas `appCamelCase` (atributo).
 - **Cada feature** sigue esta estructura interna: `pages/`, `components/`, `stores/`, `services/`, `repositories/`, `models/`, y specs colocados (`*.spec.ts` junto al archivo que testean).
-- **Value objects compartidos** (`shared/models`): `EmotionType`, `Intensity` (branded 1-10), `EnergyLevel`, `ISODateString`. Nunca declarar estos tipos de nuevo dentro de una feature.
+- **Value objects compartidos** (`shared/models`): `EmotionType`, `Intensity` (branded 1-10), `EnergyLevel`, `ISODateString`, `BreathingPattern`, `GroundingStep`. Nunca declarar estos tipos de nuevo dentro de una feature.
+- **Ids vs. etiquetas**: los ids de catálogos cerrados (`EmotionType`, `BreathingPatternId`) se mantienen en ASCII minúsculas (persistidos, comparables). Las etiquetas visibles (con tildes/mayúsculas) viven en un `*_LABELS: Record<Id, string>` separado (ver `EMOTION_LABELS`) — nunca renderizar el id directamente en la UI.
+- **Servicios de borde testeables** (`core/services`): `ClockService` (envuelve `new Date()`) e `IdGeneratorService` (envuelve `crypto.randomUUID()`) se inyectan en vez de llamarse directamente, para poder controlar tiempo/ids en tests.
+- **Páginas raíz sin feature**: una página sin dominio propio que solo enlaza a features (p. ej. `home.page.ts`) vive directamente en `src/app/` (no dentro de `features/`), clasificada como `app-root` a efectos de `eslint-plugin-boundaries`.
 - **Commits**: Conventional Commits (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`, `perf:`).
-- **Tests**: colocados junto al archivo (`x.ts` + `x.spec.ts`), no en una carpeta `__tests__` separada.
+- **Tests**: colocados junto al archivo (`x.ts` + `x.spec.ts`), no en una carpeta `__tests__` separada. Componentes con `input()`/`output()` de signals se testean con `@testing-library/angular/zoneless` (no la entrada por defecto) + `bindings: [inputBinding(...), outputBinding(...)]`. Para código con `setInterval`, usar `vi.useFakeTimers()` + `await vi.advanceTimersByTimeAsync(ms)` seguido de `fixture.detectChanges()` (no `fixture.whenStable()`, que puede colgarse en zoneless).
 
 ## Modelo de dominio
 
@@ -107,11 +110,13 @@ Cada entidad tendrá, al implementarse su feature: interfaz de repositorio en `d
 - **ADR-06 — Gráficas hechas a mano (SVG) en vez de librería de charting**: para 2-3 tipos de gráfica simples (seguimiento emocional) no se justifica una dependencia de terceros. Vive en `shared/ui/chart`.
 - **ADR-07 — Vitest nativo + Angular Testing Library + `fake-indexeddb`**: Angular 21 integra Vitest de forma first-class (reemplaza Karma). `fake-indexeddb` se carga globalmente en `src/test-setup.ts` para poder testear repositorios sin un navegador real. Cobertura mínima 90% forzada en `angular.json` (`coverageThresholds`).
 - **ADR-08 — Paleta cálida, no clínica**: verde salvia (`--color-primary`) + terracota suave (`--color-danger`) en vez de rojo/azul clínicos. Soporta `prefers-color-scheme: dark` y `prefers-reduced-motion` desde el primer commit por el contexto de uso (ansiedad, posible uso nocturno).
+- **ADR-09 — Widgets de regulación en `shared/ui`, no en una feature**: `BreathingTimerComponent`, `GroundingGuideComponent` y `CountdownTimerComponent` los usan tanto `emergency` como (más adelante) `emotional-tools`. Como las features no pueden importarse entre sí, estos widgets — y los datos de referencia clínicos que consumen (`BREATHING_PATTERNS`, `GROUNDING_5_4_3_2_1_STEPS`) — viven en `shared`, sin lógica de negocio ni persistencia propia; cada feature decide qué hacer con sus eventos `completed`/`finished`.
+- **ADR-10 — Flujo de `emergency` como una sola página con estado derivado**: en vez de sub-rutas con guards, `EmergencyPage` deriva la vista (`intake｜toolbox｜waiting-setup｜waiting-mode｜resolved`) de un `computed` sobre el estado de `EmergencyStore`. Más simple de testear y suficiente para un wizard de un solo dispositivo sin necesidad de URLs profundas.
 
 ## Roadmap
 
 - **Fase 0 — Fundación** ✅ (este commit): workspace, TS strict, zoneless, ESLint boundaries, Vitest + ATL + fake-indexeddb, PWA, design tokens, `core/persistence`, `core/state`, shell de la app, este `CLAUDE.md`.
-- **Fase 1 — MVP**: `emergency`, `emotional-tools` (respiración + grounding), `journal`, `mental-organizer`.
+- **Fase 1 — MVP**: `emergency` ✅, `emotional-tools` (respiración + grounding), `journal`, `mental-organizer`.
 - **Fase 2**: `emotional-tracker` (gráficas SVG), `gamification` ligera (rachas), `personal-library`.
 - **Fase 3**: `relationship-anxiety`, `needs-analysis`, `activities`.
 - **Fase 4 — Pulido**: auditoría WCAG AA completa, auditoría de rendimiento (Lighthouse ≥95), gamificación completa, animaciones de transición.
@@ -136,3 +141,4 @@ Todo detrás de un `featureFlags.ai` opt-in en `core/config`, sin cambiar la arq
 ## Historial de cambios
 
 - **0.1.0** (2026-07-09): Bootstrap del proyecto. Workspace Angular 21 + arquitectura Clean Architecture (`core`/`shared`/`features`), TS strict + zoneless, ESLint boundaries, Vitest + Angular Testing Library + fake-indexeddb (cobertura ≥90%), PWA, design tokens SCSS mobile-first, shell de la app, `core/persistence` (adapter `idb` + repository base) y `core/state` (signal store base). Sin features de producto todavía (Fase 0 de la Fase 1 en adelante).
+- **0.2.0** (2026-07-09): Primera feature completa de la Fase 1: `emergency` (botón de emergencia). Incluye las 4 preguntas guiadas, caja de herramientas (respiración box breathing, grounding 5-4-3-2-1, cuenta atrás de calma, pausa de autocompasión), modo especial "Espera antes de actuar" (temporizador + reflexión guiada + registro de impulso resistido/no resistido) y resolución del evento. Añade los widgets compartidos `BreathingTimerComponent`, `GroundingGuideComponent`, `CountdownTimerComponent` (`shared/ui`), los servicios `ClockService`/`IdGeneratorService` (`core/services`), y la `home.page.ts` de navegación. Verificado manualmente en navegador (móvil/desktop, claro/oscuro). 88 tests, cobertura ≥90%.

@@ -1,0 +1,71 @@
+<form class="intake-form" (submit)="$event.preventDefault()">
+  <p class="intake-form__step-counter">Paso {{ stepIndex() + 1 }} de 4</p>
+
+  @switch (stepIndex()) {
+    @case (0) {
+      <label class="intake-form__label" for="situation">¿Qué ha pasado?</label>
+      <textarea
+        id="situation"
+        class="intake-form__textarea"
+        rows="4"
+        [value]="situation()"
+        (input)="onSituationInput($event)"
+        placeholder="Cuéntamelo con tus palabras, sin filtrar nada."
+      ></textarea>
+    }
+    @case (1) {
+      <p class="intake-form__label">¿Qué emoción sientes?</p>
+      <div class="intake-form__emotion-grid" role="group" aria-label="Selecciona una emoción">
+        @for (option of emotionOptions; track option) {
+          <button
+            type="button"
+            class="intake-form__emotion-chip"
+            [class.intake-form__emotion-chip--selected]="emotion() === option"
+            [attr.aria-pressed]="emotion() === option"
+            (click)="selectEmotion(option)"
+          >
+            {{ emotionLabels[option] }}
+          </button>
+        }
+      </div>
+    }
+    @case (2) {
+      <label class="intake-form__label" for="intensity">¿Con qué intensidad, del 1 al 10?</label>
+      <input
+        id="intensity"
+        type="range"
+        min="1"
+        max="10"
+        step="1"
+        [value]="intensity()"
+        (input)="onIntensityInput($event)"
+      />
+      <p class="intake-form__intensity-value">{{ intensity() }}</p>
+    }
+    @case (3) {
+      <label class="intake-form__label" for="need">¿Qué necesitas ahora mismo?</label>
+      <input
+        id="need"
+        type="text"
+        class="intake-form__input"
+        [value]="need()"
+        (input)="onNeedInput($event)"
+        placeholder="Tranquilidad, seguridad, que alguien me escuche…"
+      />
+    }
+  }
+
+  <div class="intake-form__actions">
+    <button type="button" class="button" (click)="back()" [disabled]="stepIndex() === 0">
+      Atrás
+    </button>
+    <button
+      type="button"
+      class="button button--primary"
+      (click)="next()"
+      [disabled]="!canAdvance()"
+    >
+      {{ isLastStep() ? 'Continuar' : 'Siguiente' }}
+    </button>
+  </div>
+</form>

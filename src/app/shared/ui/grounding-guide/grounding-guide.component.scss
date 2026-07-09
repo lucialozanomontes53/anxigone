@@ -1,0 +1,47 @@
+:host {
+  display: block;
+}
+
+.grounding-guide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+
+  &__counter {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  &__badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: var(--color-accent-subtle);
+    color: var(--color-accent);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+  }
+
+  &__prompt {
+    font-size: var(--font-size-lg);
+    max-width: 32ch;
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  &__restart {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    text-decoration: underline;
+    min-height: var(--touch-target-min);
+    padding: 0 var(--space-2);
+  }
+}

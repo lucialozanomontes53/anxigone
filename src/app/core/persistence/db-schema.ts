@@ -24,7 +24,14 @@ export interface DbConfig {
  * definición aquí al implementarse (ver core/persistence/indexed-db.adapter.ts),
  * de modo que este archivo es la única fuente de verdad del esquema IndexedDB.
  */
-export const APP_DB_STORES: readonly StoreDefinition[] = [];
+export const APP_DB_STORES: readonly StoreDefinition[] = [
+  { name: 'emergencyEvents', keyPath: 'id' },
+  {
+    name: 'impulseWaitingRecords',
+    keyPath: 'id',
+    indexes: [{ name: 'byEmergencyEventId', keyPath: 'emergencyEventId' }],
+  },
+];
 
 export const DEFAULT_DB_CONFIG: DbConfig = {
   name: DB_NAME,

@@ -1,0 +1,34 @@
+<div class="emergency-page">
+  @switch (view()) {
+    @case ('intake') {
+      <h1 class="emergency-page__title">Estoy aquí contigo</h1>
+      <p class="emergency-page__subtitle">Vamos a ver qué está pasando, paso a paso.</p>
+      <app-emergency-intake-form (submitted)="onIntakeSubmitted($event)" />
+    }
+    @case ('toolbox') {
+      <h1 class="emergency-page__title">Elige lo que necesites ahora</h1>
+      <app-emergency-toolbox
+        (toolUsed)="onToolUsed($event)"
+        (waitingModeRequested)="onWaitingModeRequested()"
+        (resolved)="onResolved()"
+      />
+    }
+    @case ('waiting-setup') {
+      <h1 class="emergency-page__title">Espera antes de actuar</h1>
+      <app-emergency-waiting-setup (submitted)="onWaitingSetupSubmitted($event)" />
+    }
+    @case ('waiting-mode') {
+      <h1 class="emergency-page__title">Espera antes de actuar</h1>
+      @if (store.activeWaitingRecord(); as record) {
+        <app-emergency-waiting-mode [waitingRecord]="record" (outcome)="onWaitingOutcome($event)" />
+      }
+    }
+    @case ('resolved') {
+      <h1 class="emergency-page__title">Me alegro de que estés mejor</h1>
+      <p class="emergency-page__subtitle">Has cuidado de ti misma. Eso ya es mucho.</p>
+      <button type="button" class="button button--primary" (click)="startNewEvent()">
+        Volver al inicio
+      </button>
+    }
+  }
+</div>

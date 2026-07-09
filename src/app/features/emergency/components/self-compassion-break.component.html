@@ -1,0 +1,7 @@
+<div class="self-compassion">
+  <p class="self-compassion__counter">{{ stepIndex() + 1 }} de {{ statements.length }}</p>
+  <p class="self-compassion__statement" role="status">{{ currentStatement() }}</p>
+  <button type="button" class="button button--primary" (click)="next()">
+    {{ isLastStep() ? 'He terminado' : 'Siguiente' }}
+  </button>
+</div>

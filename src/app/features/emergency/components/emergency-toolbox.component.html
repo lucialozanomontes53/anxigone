@@ -1,0 +1,47 @@
+@switch (activeTool()) {
+  @case ('breathing') {
+    <app-breathing-timer [pattern]="boxBreathingPattern" [cycles]="4" (completed)="onBreathingCompleted()" />
+  }
+  @case ('grounding') {
+    <app-grounding-guide [steps]="groundingSteps" (completed)="onGroundingCompleted()" />
+  }
+  @case ('calm-countdown') {
+    <app-countdown-timer
+      [durationSec]="60"
+      label="Cuenta atrás de calma"
+      (finished)="onCountdownFinished()"
+    />
+  }
+  @case ('self-compassion') {
+    <app-self-compassion-break (completed)="onSelfCompassionCompleted()" />
+  }
+  @default {
+    <div class="toolbox__grid">
+      <button type="button" class="toolbox__card" (click)="openTool('breathing')">
+        🫁 Respiración guiada
+      </button>
+      <button type="button" class="toolbox__card" (click)="openTool('grounding')">
+        🌳 Grounding 5-4-3-2-1
+      </button>
+      <button type="button" class="toolbox__card" (click)="openTool('calm-countdown')">
+        ⏳ Cuenta atrás de calma
+      </button>
+      <button type="button" class="toolbox__card" (click)="openTool('self-compassion')">
+        💛 Pausa de autocompasión
+      </button>
+    </div>
+  }
+}
+
+@if (activeTool()) {
+  <button type="button" class="toolbox__back" (click)="closeTool()">Volver a las herramientas</button>
+} @else {
+  <div class="toolbox__footer">
+    <button type="button" class="button button--danger button--block" (click)="waitingModeRequested.emit()">
+      Espera antes de actuar
+    </button>
+    <button type="button" class="button button--block" (click)="resolved.emit()">
+      Ya estoy mejor
+    </button>
+  </div>
+}

@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+
+  &__intro {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-lg);
+  }
+
+  &__links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: var(--color-text-primary);
+
+    &:focus-visible {
+      outline: 2px solid var(--color-focus-ring);
+      outline-offset: 2px;
+    }
+
+    &--emphasis {
+      background-color: var(--color-danger-subtle);
+      border-color: var(--color-danger);
+    }
+  }
+
+  &__card-title {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+  }
+
+  &__card-description {
+    color: var(--color-text-secondary);
+  }
+}

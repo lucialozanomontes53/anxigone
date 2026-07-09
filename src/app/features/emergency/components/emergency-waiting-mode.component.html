@@ -1,0 +1,33 @@
+<div class="waiting-mode">
+  <p class="waiting-mode__reminder">
+    Recuerda por qué merece la pena esperar: <strong>{{ waitingRecord().goal }}</strong>
+  </p>
+
+  <app-countdown-timer
+    [durationSec]="waitingRecord().timerDurationMin * 60"
+    label="Espera antes de actuar"
+    (finished)="onTimerFinished()"
+  />
+
+  <ul class="waiting-mode__prompts">
+    @for (prompt of reflectionPrompts; track prompt) {
+      <li>{{ prompt }}</li>
+    }
+  </ul>
+
+  <label class="waiting-mode__label" for="reflection-notes">Tu reflexión mientras esperas</label>
+  <textarea
+    id="reflection-notes"
+    class="waiting-mode__textarea"
+    rows="4"
+    [value]="reflectionNotes()"
+    (input)="onReflectionInput($event)"
+  ></textarea>
+
+  <div class="waiting-mode__actions">
+    <button type="button" class="button button--primary" (click)="finish(true)">
+      Resistí el impulso
+    </button>
+    <button type="button" class="button" (click)="finish(false)">No lo resistí</button>
+  </div>
+</div>

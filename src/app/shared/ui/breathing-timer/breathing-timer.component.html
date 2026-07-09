@@ -1,0 +1,28 @@
+<div class="breathing-timer">
+  <p class="breathing-timer__label">{{ pattern().label }}</p>
+
+  <div
+    class="breathing-timer__circle"
+    [class.breathing-timer__circle--expanded]="isExpandedPhase()"
+    [style.transition-duration.s]="currentPhaseDuration()"
+  >
+    <span class="breathing-timer__seconds" aria-hidden="true">{{ secondsLeft() }}</span>
+  </div>
+
+  <p class="breathing-timer__phase" role="status">
+    @if (isRunning()) {
+      {{ phaseLabel() }}
+    } @else {
+      Pulsa "Empezar" cuando estés lista
+    }
+  </p>
+
+  <p class="breathing-timer__progress">Ciclo {{ cyclesCompleted() + 1 }} de {{ cycles() }}</p>
+
+  <div class="breathing-timer__actions">
+    <button type="button" class="button button--primary" (click)="start()" [disabled]="isRunning()">
+      Empezar
+    </button>
+    <button type="button" class="button" (click)="stop()" [disabled]="!isRunning()">Detener</button>
+  </div>
+</div>

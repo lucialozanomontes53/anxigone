@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.self-compassion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+  padding: var(--space-5);
+  background-color: var(--color-accent-subtle);
+  border-radius: var(--radius-lg);
+
+  &__counter {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  &__statement {
+    font-size: var(--font-size-lg);
+    font-style: italic;
+    color: var(--color-accent);
+    max-width: 32ch;
+  }
+}

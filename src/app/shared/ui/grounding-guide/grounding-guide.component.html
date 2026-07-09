@@ -1,0 +1,27 @@
+@if (currentStep(); as step) {
+  <div class="grounding-guide">
+    <p class="grounding-guide__counter">Paso {{ stepIndex() + 1 }} de {{ steps().length }}</p>
+
+    <div class="grounding-guide__badge" aria-hidden="true">{{ step.count }}</div>
+
+    <p class="grounding-guide__prompt" role="status">{{ step.prompt }}</p>
+
+    <div class="grounding-guide__actions">
+      <button
+        type="button"
+        class="button"
+        (click)="previous()"
+        [disabled]="isFirstStep()"
+      >
+        Anterior
+      </button>
+      <button type="button" class="button button--primary" (click)="next()">
+        {{ isLastStep() ? 'Terminar' : 'Siguiente' }}
+      </button>
+    </div>
+
+    <button type="button" class="grounding-guide__restart" (click)="restart()">
+      Empezar de nuevo
+    </button>
+  </div>
+}
