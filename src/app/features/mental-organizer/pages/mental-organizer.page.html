@@ -1,0 +1,39 @@
+<div class="mental-organizer-page">
+  <h1 class="mental-organizer-page__title">Organizador mental</h1>
+  <p class="mental-organizer-page__subtitle">
+    Vacía la cabeza y luego decide, con calma, dónde va cada cosa.
+  </p>
+
+  <app-brain-dump-inbox
+    [items]="store.unclassifiedItems()"
+    (added)="onAdded($event)"
+    (classified)="onClassified($event)"
+  />
+
+  <div class="mental-organizer-page__board">
+    <app-brain-dump-column
+      title="Acción"
+      [items]="store.actionItems()"
+      (resolved)="onResolved($event)"
+      (deleted)="onDeleted($event)"
+    />
+    <app-brain-dump-column
+      title="Espera"
+      [items]="store.waitingItems()"
+      (resolved)="onResolved($event)"
+      (deleted)="onDeleted($event)"
+    />
+    <app-brain-dump-column
+      title="No depende de mí"
+      [items]="store.notMyControlItems()"
+      (resolved)="onResolved($event)"
+      (deleted)="onDeleted($event)"
+    />
+    <app-brain-dump-column
+      title="Soltar"
+      [items]="store.releaseItems()"
+      (resolved)="onResolved($event)"
+      (deleted)="onDeleted($event)"
+    />
+  </div>
+</div>

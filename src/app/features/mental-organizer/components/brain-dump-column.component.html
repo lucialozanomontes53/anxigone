@@ -1,0 +1,23 @@
+<section class="brain-dump-column">
+  <h3 class="brain-dump-column__title">{{ title() }} ({{ items().length }})</h3>
+
+  @if (items().length === 0) {
+    <p class="brain-dump-column__empty">Nada por aquí todavía.</p>
+  } @else {
+    <ul class="brain-dump-column__list">
+      @for (item of items(); track item.id) {
+        <li class="brain-dump-column__item">
+          <p class="brain-dump-column__content">{{ item.content }}</p>
+          <div class="brain-dump-column__actions">
+            <button type="button" class="brain-dump-column__resolve" (click)="resolved.emit(item.id)">
+              Resuelto
+            </button>
+            <button type="button" class="brain-dump-column__delete" (click)="deleted.emit(item.id)">
+              Eliminar
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</section>

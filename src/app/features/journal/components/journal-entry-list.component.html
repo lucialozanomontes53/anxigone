@@ -1,0 +1,38 @@
+@if (entries().length === 0) {
+  <p class="journal-list__empty">Todavía no hay entradas. Escribe la primera cuando quieras.</p>
+} @else {
+  <ul class="journal-list">
+    @for (entry of entries(); track entry.id) {
+      <li class="journal-list__item">
+        <details>
+          <summary class="journal-list__summary">
+            <span class="journal-list__date">{{ formatDate(entry.date) }}</span>
+            <span class="journal-list__emotion">{{ emotionLabels[entry.emotion] }} · {{ entry.intensity }}/10</span>
+          </summary>
+
+          <div class="journal-list__details">
+            <p><strong>Situación:</strong> {{ entry.situation }}</p>
+            @if (entry.facts) {
+              <p><strong>Hechos:</strong> {{ entry.facts }}</p>
+            }
+            @if (entry.interpretations) {
+              <p><strong>Interpretaciones:</strong> {{ entry.interpretations }}</p>
+            }
+            @if (entry.fears) {
+              <p><strong>Miedos:</strong> {{ entry.fears }}</p>
+            }
+            @if (entry.alternatives) {
+              <p><strong>Alternativas:</strong> {{ entry.alternatives }}</p>
+            }
+            @if (entry.needs) {
+              <p><strong>Necesito:</strong> {{ entry.needs }}</p>
+            }
+            <button type="button" class="journal-list__delete" (click)="deleted.emit(entry.id)">
+              Eliminar entrada
+            </button>
+          </div>
+        </details>
+      </li>
+    }
+  </ul>
+}

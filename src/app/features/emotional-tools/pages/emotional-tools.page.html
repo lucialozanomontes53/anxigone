@@ -1,0 +1,52 @@
+<div class="emotional-tools-page">
+  <h1 class="emotional-tools-page__title">Caja de herramientas emocionales</h1>
+
+  @switch (view()) {
+    @case ('box') {
+      <app-breathing-timer [pattern]="boxPattern" [cycles]="4" (completed)="onBreathingCompleted('box')" />
+    }
+    @case ('4-7-8') {
+      <app-breathing-timer
+        [pattern]="pattern478"
+        [cycles]="4"
+        (completed)="onBreathingCompleted('4-7-8')"
+      />
+    }
+    @case ('diaphragmatic') {
+      <app-breathing-timer
+        [pattern]="diaphragmaticPattern"
+        [cycles]="6"
+        (completed)="onBreathingCompleted('diaphragmatic')"
+      />
+    }
+    @case ('grounding') {
+      <app-grounding-guide [steps]="groundingSteps" (completed)="onGroundingCompleted()" />
+    }
+    @default {
+      <p class="emotional-tools-page__intro">
+        Elige una técnica. Todas están basadas en respiración y mindfulness reconocidos.
+      </p>
+      <div class="emotional-tools-page__grid">
+        @for (pattern of breathingPatterns; track pattern.id) {
+          <button type="button" class="emotional-tools-page__card" (click)="open(pattern.id)">
+            {{ pattern.label }}
+          </button>
+        }
+        <button type="button" class="emotional-tools-page__card" (click)="open('grounding')">
+          Grounding 5-4-3-2-1
+        </button>
+      </div>
+      @if (store.sessionCount() > 0) {
+        <p class="emotional-tools-page__history">
+          Sesiones completadas: {{ store.sessionCount() }}
+        </p>
+      }
+    }
+  }
+
+  @if (view() !== 'menu') {
+    <button type="button" class="emotional-tools-page__back" (click)="backToMenu()">
+      Volver a las técnicas
+    </button>
+  }
+</div>

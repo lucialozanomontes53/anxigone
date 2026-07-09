@@ -1,0 +1,54 @@
+:host {
+  display: block;
+}
+
+.journal-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  list-style: none;
+
+  &__empty {
+    color: var(--color-text-secondary);
+  }
+
+  &__item {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    overflow: hidden;
+  }
+
+  &__summary {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    font-weight: 600;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-focus-ring);
+      outline-offset: -2px;
+    }
+  }
+
+  &__date {
+    color: var(--color-text-secondary);
+    font-weight: 400;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: 0 var(--space-4) var(--space-4);
+  }
+
+  &__delete {
+    align-self: flex-start;
+    color: var(--color-danger);
+    text-decoration: underline;
+    min-height: var(--touch-target-min);
+  }
+}

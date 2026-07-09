@@ -15,6 +15,21 @@ const FEATURE_LINKS: readonly FeatureLink[] = [
     description: 'Si te sientes desbordada ahora mismo, empieza aquí.',
     emphasis: true,
   },
+  {
+    path: '/herramientas',
+    title: 'Caja de herramientas emocionales',
+    description: 'Respiración y grounding, sin necesidad de estar en crisis.',
+  },
+  {
+    path: '/diario',
+    title: 'Diario emocional',
+    description: 'Separa hechos, interpretaciones, miedos y alternativas.',
+  },
+  {
+    path: '/organizador',
+    title: 'Organizador mental',
+    description: 'Vacía la cabeza y clasifica: acción, espera, no depende de mí, soltar.',
+  },
 ];
 
 @Component({

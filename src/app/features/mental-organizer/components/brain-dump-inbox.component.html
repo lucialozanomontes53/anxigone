@@ -1,0 +1,40 @@
+<div class="brain-dump-inbox">
+  <label class="brain-dump-inbox__label" for="brain-dump-draft">
+    ¿Qué tienes en la cabeza? Suéltalo aquí, uno por uno.
+  </label>
+  <div class="brain-dump-inbox__capture">
+    <input
+      id="brain-dump-draft"
+      type="text"
+      class="brain-dump-inbox__input"
+      [value]="draft()"
+      (input)="onDraftInput($event)"
+      (keydown.enter)="add()"
+      placeholder="Llamar al médico, esa discusión pendiente…"
+    />
+    <button type="button" class="button button--primary" (click)="add()" [disabled]="!canAdd()">
+      Añadir
+    </button>
+  </div>
+
+  @if (items().length > 0) {
+    <ul class="brain-dump-inbox__list">
+      @for (item of items(); track item.id) {
+        <li class="brain-dump-inbox__item">
+          <p class="brain-dump-inbox__content">{{ item.content }}</p>
+          <div class="brain-dump-inbox__actions" role="group" [attr.aria-label]="'Clasificar: ' + item.content">
+            @for (category of categories; track category) {
+              <button
+                type="button"
+                class="brain-dump-inbox__category-button"
+                (click)="classified.emit({ id: item.id, category })"
+              >
+                {{ categoryLabels[category] }}
+              </button>
+            }
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</div>

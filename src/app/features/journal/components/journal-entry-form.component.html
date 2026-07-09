@@ -1,0 +1,91 @@
+<form class="journal-form" (submit)="$event.preventDefault()">
+  <label class="journal-form__label" for="situation">¿Qué ha pasado?</label>
+  <textarea
+    id="situation"
+    class="journal-form__textarea"
+    rows="3"
+    [value]="situation()"
+    (input)="onSituationInput($event)"
+  ></textarea>
+
+  <p class="journal-form__label">¿Qué emoción sientes?</p>
+  <div class="journal-form__emotion-grid" role="group" aria-label="Selecciona una emoción">
+    @for (option of emotionOptions; track option) {
+      <button
+        type="button"
+        class="journal-form__emotion-chip"
+        [class.journal-form__emotion-chip--selected]="emotion() === option"
+        [attr.aria-pressed]="emotion() === option"
+        (click)="selectEmotion(option)"
+      >
+        {{ emotionLabels[option] }}
+      </button>
+    }
+  </div>
+
+  <label class="journal-form__label" for="intensity">Intensidad (1-10)</label>
+  <input
+    id="intensity"
+    type="range"
+    min="1"
+    max="10"
+    step="1"
+    [value]="intensity()"
+    (input)="onIntensityInput($event)"
+  />
+  <p class="journal-form__intensity-value">{{ intensity() }}</p>
+
+  <label class="journal-form__label" for="facts">Hechos (lo objetivamente observable)</label>
+  <textarea
+    id="facts"
+    class="journal-form__textarea"
+    rows="2"
+    [value]="facts()"
+    (input)="onFactsInput($event)"
+  ></textarea>
+
+  <label class="journal-form__label" for="interpretations">Interpretaciones (qué significado le doy)</label>
+  <textarea
+    id="interpretations"
+    class="journal-form__textarea"
+    rows="2"
+    [value]="interpretations()"
+    (input)="onInterpretationsInput($event)"
+  ></textarea>
+
+  <label class="journal-form__label" for="fears">Miedos (qué temo que signifique)</label>
+  <textarea
+    id="fears"
+    class="journal-form__textarea"
+    rows="2"
+    [value]="fears()"
+    (input)="onFearsInput($event)"
+  ></textarea>
+
+  <label class="journal-form__label" for="alternatives">Alternativas (otras explicaciones posibles)</label>
+  <textarea
+    id="alternatives"
+    class="journal-form__textarea"
+    rows="2"
+    [value]="alternatives()"
+    (input)="onAlternativesInput($event)"
+  ></textarea>
+
+  <label class="journal-form__label" for="needs">¿Qué necesitas?</label>
+  <input
+    id="needs"
+    type="text"
+    class="journal-form__input"
+    [value]="needs()"
+    (input)="onNeedsInput($event)"
+  />
+
+  <button
+    type="button"
+    class="button button--primary button--block"
+    (click)="submit()"
+    [disabled]="!canSubmit()"
+  >
+    Guardar en el diario
+  </button>
+</form>

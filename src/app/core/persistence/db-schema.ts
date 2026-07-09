@@ -1,5 +1,13 @@
 export const DB_NAME = 'espacio-seguro-db';
-export const DB_VERSION = 1;
+/**
+ * IMPORTANTE: sube esta versión cada vez que añadas o cambies una entrada de
+ * APP_DB_STORES. IndexedDB solo ejecuta el `upgrade` (que crea los stores
+ * nuevos) cuando la versión pedida es mayor que la ya almacenada en el
+ * navegador; si olvidas subirla, los navegadores que ya tenían la BD creada
+ * con una versión anterior se quedan sin el store nuevo y las operaciones
+ * sobre él fallan con "NotFoundError: object store was not found".
+ */
+export const DB_VERSION = 3;
 
 export interface IndexDefinition {
   readonly name: string;
@@ -31,6 +39,9 @@ export const APP_DB_STORES: readonly StoreDefinition[] = [
     keyPath: 'id',
     indexes: [{ name: 'byEmergencyEventId', keyPath: 'emergencyEventId' }],
   },
+  { name: 'toolSessions', keyPath: 'id' },
+  { name: 'journalEntries', keyPath: 'id' },
+  { name: 'brainDumpItems', keyPath: 'id' },
 ];
 
 export const DEFAULT_DB_CONFIG: DbConfig = {

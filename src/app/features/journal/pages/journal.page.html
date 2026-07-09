@@ -1,0 +1,12 @@
+<div class="journal-page">
+  <h1 class="journal-page__title">Diario emocional</h1>
+  <p class="journal-page__subtitle">
+    Separar hechos, interpretaciones, miedos y alternativas ayuda a ver la situación con más
+    claridad.
+  </p>
+
+  <app-journal-entry-form (submitted)="onSubmitted($event)" />
+
+  <h2 class="journal-page__history-title">Entradas anteriores</h2>
+  <app-journal-entry-list [entries]="store.entries()" (deleted)="onDeleted($event)" />
+</div>
