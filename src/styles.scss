@@ -1,0 +1,13 @@
+@use 'styles/tokens';
+@use 'styles/reset';
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+}
+
+a {
+  color: var(--color-primary);
+}

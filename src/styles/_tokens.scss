@@ -1,0 +1,101 @@
+/*
+ * Design tokens de Espacio Seguro. Paleta cálida y de baja saturación
+ * (verde salvia + terracota suave) pensada para no añadir estímulo visual
+ * durante un pico de ansiedad. Contraste verificado para WCAG AA sobre fondo claro.
+ */
+:root {
+  // Color — superficies
+  --color-background: #f7f5f0;
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-border: #ddd6c9;
+
+  // Color — texto
+  --color-text-primary: #2d2a26;
+  --color-text-secondary: #5c574d;
+  --color-text-on-primary: #ffffff;
+  --color-text-on-accent: #ffffff;
+
+  // Color — marca / acciones
+  --color-primary: #3f6f66;
+  --color-primary-hover: #335a52;
+  --color-primary-subtle: #e1ebe8;
+  --color-accent: #8b7fa8;
+  --color-accent-subtle: #ece8f2;
+
+  // Color — semántico
+  --color-success: #4c8c6f;
+  --color-warning: #c98a2c;
+  --color-danger: #c2694f;
+  --color-danger-hover: #a8543c;
+  --color-danger-subtle: #f6e6e1;
+  --color-focus-ring: #2f6f9e;
+
+  // Tipografía
+  --font-family-base:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --line-height-base: 1.5;
+  --line-height-tight: 1.25;
+
+  // Espaciado (escala 4px)
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+
+  // Radios y sombras
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --shadow-sm: 0 1px 2px rgb(45 42 38 / 0.06);
+  --shadow-md: 0 4px 12px rgb(45 42 38 / 0.08);
+
+  // Transiciones (suaves, nada abrupto)
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+
+  // Layout
+  --touch-target-min: 44px;
+  --max-content-width: 480px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #1c1b19;
+    --color-surface: #26241f;
+    --color-surface-raised: #2f2c26;
+    --color-border: #3c3830;
+
+    --color-text-primary: #f2efe9;
+    --color-text-secondary: #c7c1b4;
+
+    --color-primary: #7fb3a6;
+    --color-primary-hover: #96c2b6;
+    --color-primary-subtle: #22322e;
+    --color-accent: #b3a6cf;
+    --color-accent-subtle: #2a2733;
+
+    --color-success: #7fb894;
+    --color-warning: #d9a44e;
+    --color-danger: #d98a72;
+    --color-danger-hover: #e0a08b;
+    --color-danger-subtle: #3a2621;
+    --color-focus-ring: #7fb0d9;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 0.35);
+  }
+}
+
+// Breakpoints mobile-first (usar con mixins de _mixins.scss)
+$breakpoint-tablet: 600px;
+$breakpoint-desktop: 1024px;
