@@ -16,11 +16,13 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('renders the app name in the header', async () => {
+  it('renders the app name in the header as a link to home', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.app-header__title')?.textContent).toContain('Espacio Seguro');
+    const title = compiled.querySelector<HTMLAnchorElement>('.app-header__title');
+    expect(title?.textContent).toContain('Espacio Seguro');
+    expect(title?.getAttribute('href')).toBe('/');
   });
 
   it('renders a skip link targeting the main content', async () => {
