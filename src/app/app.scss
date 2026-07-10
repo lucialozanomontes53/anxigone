@@ -48,6 +48,7 @@
   max-width: var(--max-content-width);
   margin-inline: auto;
   padding: var(--space-5);
+  padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px) + var(--space-5));
 
   @include mixins.from-desktop {
     max-width: 720px;
