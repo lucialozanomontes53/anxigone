@@ -1,23 +1,30 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 
+import { BlockingConfirmComponent } from '../components/blocking-confirm.component';
+import { BlockingLockComponent } from '../components/blocking-lock.component';
+import { BlockingSetupComponent, BlockingSetupResult } from '../components/blocking-setup.component';
 import { EmergencyIntakeFormComponent } from '../components/emergency-intake-form.component';
 import { EmergencyToolboxComponent } from '../components/emergency-toolbox.component';
-import { EmergencyWaitingModeComponent, WaitingModeOutcome } from '../components/emergency-waiting-mode.component';
-import {
-  EmergencyWaitingSetupComponent,
-  WaitingSetupInput,
-} from '../components/emergency-waiting-setup.component';
+import { BlockingReflection } from '../models/blocking-session.model';
+import { BlockingSessionStore } from '../stores/blocking-session.store';
 import { EmergencyStore, StartEventInput } from '../stores/emergency.store';
 
-type EmergencyView = 'intake' | 'toolbox' | 'waiting-setup' | 'waiting-mode' | 'resolved';
+type EmergencyView =
+  | 'intake'
+  | 'toolbox'
+  | 'blocking-setup'
+  | 'blocking-confirm'
+  | 'blocking-lock'
+  | 'resolved';
 
 @Component({
   selector: 'app-emergency-page',
   imports: [
     EmergencyIntakeFormComponent,
     EmergencyToolboxComponent,
-    EmergencyWaitingSetupComponent,
-    EmergencyWaitingModeComponent,
+    BlockingSetupComponent,
+    BlockingConfirmComponent,
+    BlockingLockComponent,
   ],
   templateUrl: './emergency.page.html',
   styleUrl: './emergency.page.scss',
@@ -25,24 +32,27 @@ type EmergencyView = 'intake' | 'toolbox' | 'waiting-setup' | 'waiting-mode' | '
 })
 export class EmergencyPage {
   protected readonly store = inject(EmergencyStore);
+  protected readonly blockingStore = inject(BlockingSessionStore);
 
   private readonly justResolved = signal(false);
+  private readonly isSettingUpBlocking = signal(false);
+  private readonly pendingSetup = signal<BlockingSetupResult | null>(null);
 
   protected readonly view = computed<EmergencyView>(() => {
+    if (this.blockingStore.activeSession()) {
+      return 'blocking-lock';
+    }
     if (this.justResolved()) {
       return 'resolved';
-    }
-    const waitingRecord = this.store.activeWaitingRecord();
-    if (waitingRecord && waitingRecord.completedAt === null) {
-      return 'waiting-mode';
     }
     if (!this.store.activeEvent()) {
       return 'intake';
     }
-    return this.isSettingUpWaiting() ? 'waiting-setup' : 'toolbox';
+    if (this.pendingSetup()) {
+      return 'blocking-confirm';
+    }
+    return this.isSettingUpBlocking() ? 'blocking-setup' : 'toolbox';
   });
-
-  private readonly isSettingUpWaiting = signal(false);
 
   protected async onIntakeSubmitted(input: StartEventInput): Promise<void> {
     await this.store.startEvent(input);
@@ -53,16 +63,38 @@ export class EmergencyPage {
   }
 
   protected onWaitingModeRequested(): void {
-    this.isSettingUpWaiting.set(true);
+    this.isSettingUpBlocking.set(true);
   }
 
-  protected async onWaitingSetupSubmitted(input: WaitingSetupInput): Promise<void> {
-    await this.store.startWaitingMode(input.goal, input.timerDurationMin);
-    this.isSettingUpWaiting.set(false);
+  protected async onBlockingSetupSubmitted(result: BlockingSetupResult): Promise<void> {
+    if (result.mode === 'shielded') {
+      this.pendingSetup.set(result);
+      return;
+    }
+    await this.startBlocking(result);
   }
 
-  protected async onWaitingOutcome(outcome: WaitingModeOutcome): Promise<void> {
-    await this.store.completeWaitingRecord(outcome.reflectionNotes, outcome.impulseResisted);
+  protected onBlockingConfirmCancelled(): void {
+    this.pendingSetup.set(null);
+    this.isSettingUpBlocking.set(false);
+  }
+
+  protected async onBlockingConfirmConfirmed(): Promise<void> {
+    const pending = this.pendingSetup();
+    if (!pending) {
+      return;
+    }
+    await this.startBlocking(pending);
+    this.pendingSetup.set(null);
+  }
+
+  protected async onBlockingCancelRequested(): Promise<void> {
+    await this.blockingStore.cancelSession();
+    this.isSettingUpBlocking.set(false);
+  }
+
+  protected async onBlockingCompleted(reflection: BlockingReflection): Promise<void> {
+    await this.blockingStore.completeSession(reflection);
   }
 
   protected async onResolved(): Promise<void> {
@@ -72,7 +104,19 @@ export class EmergencyPage {
 
   protected startNewEvent(): void {
     this.justResolved.set(false);
-    this.isSettingUpWaiting.set(false);
+    this.isSettingUpBlocking.set(false);
     this.store.clearActiveEvent();
+  }
+
+  private async startBlocking(result: BlockingSetupResult): Promise<void> {
+    await this.blockingStore.startSession({
+      mode: result.mode,
+      reason: result.reason,
+      blockedApps: result.blockedApps,
+      durationMin: result.durationMin,
+      emergencyEventId: this.store.activeEvent()?.id ?? null,
+    });
+    await this.store.markWaitingModeActivated();
+    this.isSettingUpBlocking.set(false);
   }
 }

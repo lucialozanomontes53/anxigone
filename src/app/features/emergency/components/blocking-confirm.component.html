@@ -1,0 +1,19 @@
+<div class="blocking-confirm">
+  <h1 class="blocking-confirm__title">Estás activando el Modo Blindado</h1>
+  <p class="blocking-confirm__body">
+    Durante el tiempo seleccionado no podrás acceder a las aplicaciones bloqueadas ni cancelar el
+    bloqueo.
+  </p>
+  <p class="blocking-confirm__body">
+    Este compromiso existe para protegerte de decisiones impulsivas tomadas en momentos de
+    ansiedad.
+  </p>
+  <p class="blocking-confirm__question">¿Deseas continuar?</p>
+
+  <div class="blocking-confirm__actions">
+    <button type="button" class="button" (click)="cancelled.emit()">Cancelar</button>
+    <button type="button" class="button button--danger" (click)="confirmed.emit()">
+      Activar Modo Blindado
+    </button>
+  </div>
+</div>

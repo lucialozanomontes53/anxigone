@@ -6,6 +6,7 @@ import {
   DestroyRef,
   inject,
   input,
+  OnInit,
   output,
   signal,
 } from '@angular/core';
@@ -16,9 +17,13 @@ import {
   styleUrl: './countdown-timer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CountdownTimerComponent {
+export class CountdownTimerComponent implements OnInit {
   readonly durationSec = input.required<number>();
   readonly label = input('');
+  /** Arranca la cuenta atrás nada más montar el componente, sin esperar al botón "Empezar". */
+  readonly autoStart = input(false);
+  /** Oculta los botones "Empezar"/"Detener": para usos con autoStart donde no debe poder pausarse. */
+  readonly hideControls = input(false);
   readonly finished = output<void>();
 
   private readonly liveAnnouncer = inject(LiveAnnouncer);
@@ -39,6 +44,12 @@ export class CountdownTimerComponent {
 
   constructor() {
     inject(DestroyRef).onDestroy(() => this.clearTimer());
+  }
+
+  ngOnInit(): void {
+    if (this.autoStart()) {
+      this.start();
+    }
   }
 
   protected start(): void {

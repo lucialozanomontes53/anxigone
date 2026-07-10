@@ -1,0 +1,9 @@
+@if (store.activeSession(); as session) {
+  <a class="active-blocking-banner" routerLink="/emergencia" role="status">
+    <span class="active-blocking-banner__dot" aria-hidden="true"></span>
+    <span class="active-blocking-banner__text">
+      Bloqueo activo{{ session.reason ? ': ' + session.reason : '' }}
+    </span>
+    <span class="active-blocking-banner__time">{{ formattedRemaining() }}</span>
+  </a>
+}

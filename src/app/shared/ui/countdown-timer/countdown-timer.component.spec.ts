@@ -69,4 +69,27 @@ describe('CountdownTimerComponent', () => {
 
     expect(onFinished).not.toHaveBeenCalled();
   });
+
+  it('con autoStart arranca sola sin pulsar Empezar', async () => {
+    await render(CountdownTimerComponent, {
+      bindings: [inputBinding('durationSec', () => 3), inputBinding('autoStart', () => true)],
+    });
+
+    expect(screen.getByText('0:03')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Empezar' })).toBeDisabled();
+  });
+
+  it('con hideControls no muestra los botones Empezar/Detener', async () => {
+    await render(CountdownTimerComponent, {
+      bindings: [
+        inputBinding('durationSec', () => 3),
+        inputBinding('autoStart', () => true),
+        inputBinding('hideControls', () => true),
+      ],
+    });
+
+    expect(screen.getByText('0:03')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Empezar' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Detener' })).not.toBeInTheDocument();
+  });
 });

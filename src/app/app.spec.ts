@@ -1,12 +1,27 @@
 import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
+
+import { DbConfig } from './core/persistence/db-schema';
+import { APP_DB_CONFIG } from './core/persistence/indexed-db.adapter';
+import { BlockingSessionIndexedDbRepository } from './features/emergency/repositories/blocking-session-indexeddb.repository';
+import { BlockingSessionRepository } from './features/emergency/repositories/blocking-session.repository';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
+    const config: DbConfig = {
+      name: `test-db-${crypto.randomUUID()}`,
+      version: 1,
+      stores: [{ name: 'blockingSessions', keyPath: 'id' }],
+    };
+
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        { provide: APP_DB_CONFIG, useValue: config },
+        { provide: BlockingSessionRepository, useClass: BlockingSessionIndexedDbRepository },
+      ],
     }).compileComponents();
   });
 

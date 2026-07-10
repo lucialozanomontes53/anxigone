@@ -1,0 +1,97 @@
+<div class="blocking-setup">
+  <p class="blocking-setup__label">¿Qué impulso quieres posponer?</p>
+  <input
+    id="blocking-reason"
+    type="text"
+    class="blocking-setup__input"
+    [value]="reason()"
+    (input)="onReasonInput($event)"
+    placeholder="Enviar el mensaje, abrir Instagram…"
+    aria-label="¿Qué impulso quieres posponer?"
+  />
+
+  <p class="blocking-setup__label">¿Qué apps o cuentas quieres evitar? (opcional)</p>
+  <div class="blocking-setup__app-capture">
+    <input
+      type="text"
+      class="blocking-setup__input"
+      [value]="appDraft()"
+      (input)="onAppDraftInput($event)"
+      (keydown.enter)="addApp()"
+      placeholder="Instagram, WhatsApp…"
+      aria-label="Añadir app o cuenta a evitar"
+    />
+    <button type="button" class="button" (click)="addApp()">Añadir</button>
+  </div>
+  @if (blockedApps().length > 0) {
+    <ul class="blocking-setup__app-list">
+      @for (app of blockedApps(); track app) {
+        <li class="blocking-setup__app-chip">
+          {{ app }}
+          <button
+            type="button"
+            class="blocking-setup__app-remove"
+            (click)="removeApp(app)"
+            [attr.aria-label]="'Quitar ' + app"
+          >
+            ×
+          </button>
+        </li>
+      }
+    </ul>
+  }
+
+  <p class="blocking-setup__label">¿Cuánto quieres esperar?</p>
+  <div class="blocking-setup__durations" role="group" aria-label="Duración de la espera en minutos">
+    @for (minutes of durationOptions; track minutes) {
+      <button
+        type="button"
+        class="blocking-setup__duration-chip"
+        [class.blocking-setup__duration-chip--selected]="durationMin() === minutes"
+        [attr.aria-pressed]="durationMin() === minutes"
+        (click)="selectDuration(minutes)"
+      >
+        {{ minutes }} min
+      </button>
+    }
+  </div>
+
+  <p class="blocking-setup__label">¿Qué modo quieres usar?</p>
+  <div class="blocking-setup__modes">
+    <button
+      type="button"
+      class="blocking-setup__mode-card"
+      [class.blocking-setup__mode-card--selected]="mode() === 'normal'"
+      [attr.aria-pressed]="mode() === 'normal'"
+      (click)="selectMode('normal')"
+    >
+      <span class="blocking-setup__mode-title">Modo Normal</span>
+      <span class="blocking-setup__mode-description">
+        Puedes cancelar el bloqueo si cambias de idea. Pensado para pruebas y momentos de baja
+        intensidad.
+      </span>
+    </button>
+    <button
+      type="button"
+      class="blocking-setup__mode-card blocking-setup__mode-card--shielded"
+      [class.blocking-setup__mode-card--selected]="mode() === 'shielded'"
+      [attr.aria-pressed]="mode() === 'shielded'"
+      (click)="selectMode('shielded')"
+    >
+      <span class="blocking-setup__mode-title">Modo Blindado</span>
+      <span class="blocking-setup__mode-description">
+        Un compromiso sin vuelta atrás: no podrás cancelarlo, acortarlo ni modificarlo hasta que
+        termine.
+      </span>
+    </button>
+  </div>
+
+  <button
+    type="button"
+    class="button button--primary button--block"
+    (click)="submit()"
+    [disabled]="!canSubmit()"
+  >
+    Continuar
+  </button>
+</div>

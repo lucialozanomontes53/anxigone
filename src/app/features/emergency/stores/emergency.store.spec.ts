@@ -5,18 +5,13 @@ import { APP_DB_CONFIG } from '../../../core/persistence/indexed-db.adapter';
 import { createIntensity } from '../../../shared/models/intensity.model';
 import { EmergencyEventIndexedDbRepository } from '../repositories/emergency-event-indexeddb.repository';
 import { EmergencyEventRepository } from '../repositories/emergency-event.repository';
-import { ImpulseWaitingRecordIndexedDbRepository } from '../repositories/impulse-waiting-record-indexeddb.repository';
-import { ImpulseWaitingRecordRepository } from '../repositories/impulse-waiting-record.repository';
 import { EmergencyStore } from './emergency.store';
 
 function createStore(): EmergencyStore {
   const config: DbConfig = {
     name: `test-db-${crypto.randomUUID()}`,
     version: 1,
-    stores: [
-      { name: 'emergencyEvents', keyPath: 'id' },
-      { name: 'impulseWaitingRecords', keyPath: 'id' },
-    ],
+    stores: [{ name: 'emergencyEvents', keyPath: 'id' }],
   };
 
   TestBed.configureTestingModule({
@@ -24,7 +19,6 @@ function createStore(): EmergencyStore {
       EmergencyStore,
       { provide: APP_DB_CONFIG, useValue: config },
       { provide: EmergencyEventRepository, useClass: EmergencyEventIndexedDbRepository },
-      { provide: ImpulseWaitingRecordRepository, useClass: ImpulseWaitingRecordIndexedDbRepository },
     ],
   });
 
@@ -74,6 +68,20 @@ describe('EmergencyStore', () => {
     expect(store.activeEvent()?.techniquesUsed).toEqual(['breathing:box', 'grounding']);
   });
 
+  it('markWaitingModeActivated marca el evento activo', async () => {
+    const store = createStore();
+    await store.startEvent({
+      situation: 's',
+      emotion: 'ansiedad',
+      intensity: createIntensity(9),
+      need: 'seguridad',
+    });
+
+    await store.markWaitingModeActivated();
+
+    expect(store.activeEvent()?.waitingModeActivated).toBe(true);
+  });
+
   it('resolveActiveEvent marca resolvedAt y limpia el evento activo', async () => {
     const store = createStore();
     await store.startEvent({
@@ -88,37 +96,6 @@ describe('EmergencyStore', () => {
     expect(store.activeEvent()).toBeNull();
     await store.loadHistory();
     expect(store.history()[0]?.resolvedAt).not.toBeNull();
-  });
-
-  it('startWaitingMode crea un ImpulseWaitingRecord ligado al evento activo', async () => {
-    const store = createStore();
-    await store.startEvent({
-      situation: 's',
-      emotion: 'ansiedad',
-      intensity: createIntensity(9),
-      need: 'seguridad',
-    });
-
-    await store.startWaitingMode('No enviar el mensaje', 15);
-
-    expect(store.activeWaitingRecord()?.goal).toBe('No enviar el mensaje');
-    expect(store.activeEvent()?.waitingModeActivated).toBe(true);
-  });
-
-  it('completeWaitingRecord guarda la reflexión y si se resistió el impulso', async () => {
-    const store = createStore();
-    await store.startEvent({
-      situation: 's',
-      emotion: 'ansiedad',
-      intensity: createIntensity(7),
-      need: 'validación',
-    });
-    await store.startWaitingMode('No llamar', 10);
-
-    await store.completeWaitingRecord('Al final no hizo falta', true);
-
-    expect(store.activeWaitingRecord()?.impulseResisted).toBe(true);
-    expect(store.activeWaitingRecord()?.completedAt).not.toBeNull();
   });
 
   it('clearActiveEvent limpia el estado local sin borrar lo persistido', async () => {

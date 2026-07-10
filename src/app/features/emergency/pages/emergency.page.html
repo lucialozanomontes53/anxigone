@@ -13,14 +13,23 @@
         (resolved)="onResolved()"
       />
     }
-    @case ('waiting-setup') {
+    @case ('blocking-setup') {
       <h1 class="emergency-page__title">Espera antes de actuar</h1>
-      <app-emergency-waiting-setup (submitted)="onWaitingSetupSubmitted($event)" />
+      <app-blocking-setup (submitted)="onBlockingSetupSubmitted($event)" />
     }
-    @case ('waiting-mode') {
-      <h1 class="emergency-page__title">Espera antes de actuar</h1>
-      @if (store.activeWaitingRecord(); as record) {
-        <app-emergency-waiting-mode [waitingRecord]="record" (outcome)="onWaitingOutcome($event)" />
+    @case ('blocking-confirm') {
+      <app-blocking-confirm
+        (cancelled)="onBlockingConfirmCancelled()"
+        (confirmed)="onBlockingConfirmConfirmed()"
+      />
+    }
+    @case ('blocking-lock') {
+      @if (blockingStore.activeSession(); as session) {
+        <app-blocking-lock
+          [session]="session"
+          (cancelRequested)="onBlockingCancelRequested()"
+          (completed)="onBlockingCompleted($event)"
+        />
       }
     }
     @case ('resolved') {

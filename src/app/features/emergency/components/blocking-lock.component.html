@@ -1,0 +1,149 @@
+@if (!isExpired()) {
+  <div class="blocking-lock">
+    <h1 class="blocking-lock__title">Respira un momento</h1>
+    <p class="blocking-lock__subtitle">Elegiste darte un espacio antes de actuar.</p>
+
+    <p class="blocking-lock__countdown-label">Tiempo restante</p>
+    <app-countdown-timer
+      [durationSec]="initialRemainingSec()"
+      [autoStart]="true"
+      [hideControls]="true"
+      (finished)="onCountdownFinished()"
+    />
+
+    @if (session().reason) {
+      <p class="blocking-lock__reason">
+        Motivo registrado: <strong>"{{ session().reason }}"</strong>
+      </p>
+    }
+    @if (session().blockedApps.length > 0) {
+      <ul class="blocking-lock__apps">
+        @for (app of session().blockedApps; track app) {
+          <li>{{ app }}</li>
+        }
+      </ul>
+    }
+
+    <p class="blocking-lock__options-label">Opciones disponibles</p>
+    <div class="blocking-lock__options">
+      <button
+        type="button"
+        class="blocking-lock__option"
+        [class.blocking-lock__option--active]="activeTool() === 'breathing'"
+        (click)="toggleTool('breathing')"
+        [attr.aria-pressed]="activeTool() === 'breathing'"
+      >
+        Respirar 1 minuto
+      </button>
+      <button
+        type="button"
+        class="blocking-lock__option"
+        [class.blocking-lock__option--active]="activeTool() === 'grounding'"
+        (click)="toggleTool('grounding')"
+        [attr.aria-pressed]="activeTool() === 'grounding'"
+      >
+        Ejercicio de grounding
+      </button>
+      <a class="blocking-lock__option" routerLink="/diario">Escribir en el diario emocional</a>
+      <a class="blocking-lock__option" routerLink="/organizador">Organizar pensamientos</a>
+    </div>
+
+    @switch (activeTool()) {
+      @case ('breathing') {
+        <app-breathing-timer [pattern]="diaphragmaticPattern" [cycles]="6" />
+      }
+      @case ('grounding') {
+        <app-grounding-guide [steps]="groundingSteps" />
+      }
+    }
+
+    @if (canCancel()) {
+      <button type="button" class="blocking-lock__cancel" (click)="cancelRequested.emit()">
+        Cancelar bloqueo
+      </button>
+    }
+  </div>
+} @else {
+  <div class="blocking-lock">
+    <h1 class="blocking-lock__title">¿Cómo estás ahora?</h1>
+    <p class="blocking-lock__subtitle">El tiempo de espera ha terminado.</p>
+
+    <label class="blocking-lock__label" for="feeling-now">¿Cómo te sientes ahora?</label>
+    <input
+      id="feeling-now"
+      type="text"
+      class="blocking-lock__input"
+      [value]="feelingNow()"
+      (input)="onFeelingNowInput($event)"
+    />
+
+    <p class="blocking-lock__label">¿La urgencia ha disminuido?</p>
+    <div class="blocking-lock__yes-no">
+      <button
+        type="button"
+        class="button"
+        [class.button--primary]="urgencyDecreased() === true"
+        (click)="urgencyDecreased.set(true)"
+      >
+        Sí
+      </button>
+      <button
+        type="button"
+        class="button"
+        [class.button--primary]="urgencyDecreased() === false"
+        (click)="urgencyDecreased.set(false)"
+      >
+        No
+      </button>
+    </div>
+
+    <p class="blocking-lock__label">¿Sigues queriendo abrir la aplicación?</p>
+    <div class="blocking-lock__yes-no">
+      <button
+        type="button"
+        class="button"
+        [class.button--primary]="stillWantsToOpen() === true"
+        (click)="stillWantsToOpen.set(true)"
+      >
+        Sí
+      </button>
+      <button
+        type="button"
+        class="button"
+        [class.button--primary]="stillWantsToOpen() === false"
+        (click)="stillWantsToOpen.set(false)"
+      >
+        No
+      </button>
+    </div>
+
+    <p class="blocking-lock__label">¿La pausa te ha ayudado?</p>
+    <div class="blocking-lock__yes-no">
+      <button
+        type="button"
+        class="button"
+        [class.button--primary]="pauseHelped() === true"
+        (click)="pauseHelped.set(true)"
+      >
+        Sí
+      </button>
+      <button
+        type="button"
+        class="button"
+        [class.button--primary]="pauseHelped() === false"
+        (click)="pauseHelped.set(false)"
+      >
+        No
+      </button>
+    </div>
+
+    <button
+      type="button"
+      class="button button--primary button--block"
+      (click)="submitReflection()"
+      [disabled]="!canSubmitReflection()"
+    >
+      Guardar y terminar
+    </button>
+  </div>
+}
