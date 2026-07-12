@@ -1,0 +1,26 @@
+<div class="quick-add-victory-form">
+  <p class="quick-add-victory-form__label">Registra un pequeño avance</p>
+  <div class="quick-add-victory-form__presets" role="group" aria-label="Victorias frecuentes">
+    @for (preset of presets; track preset) {
+      <button type="button" class="quick-add-victory-form__preset" (click)="added.emit(preset)">
+        {{ preset }}
+      </button>
+    }
+  </div>
+
+  <div class="quick-add-victory-form__capture">
+    <input
+      id="victory-draft"
+      type="text"
+      class="quick-add-victory-form__input"
+      placeholder="Otro avance…"
+      aria-label="Otro avance"
+      [value]="draft()"
+      (input)="onDraftInput($event)"
+      (keydown.enter)="addDraft()"
+    />
+    <button type="button" class="button button--primary" (click)="addDraft()" [disabled]="!canAddDraft()">
+      Guardar
+    </button>
+  </div>
+</div>

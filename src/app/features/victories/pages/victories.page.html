@@ -1,0 +1,18 @@
+<div class="victories-page">
+  <h1 class="victories-page__title">Mis Logros Emocionales</h1>
+  <p class="victories-page__subtitle">
+    Reforzar el progreso, no solo la ansiedad. Cada pequeño avance cuenta.
+  </p>
+
+  <app-victories-dashboard
+    [totalCount]="store.totalCount()"
+    [weekCount]="store.weekCount()"
+    [monthCount]="store.monthCount()"
+    [currentStreak]="store.currentStreak()"
+  />
+
+  <app-quick-add-victory-form (added)="onAdded($event)" />
+
+  <h2 class="victories-page__section-title">Victorias registradas</h2>
+  <app-victory-list [victories]="store.victories()" (deleted)="onDeleted($event)" />
+</div>

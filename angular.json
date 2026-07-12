@@ -76,6 +76,7 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "setupFiles": ["src/test-setup.ts"],
+            "runnerConfig": true,
             "coverage": true,
             "coverageThresholds": {
               "statements": 90,

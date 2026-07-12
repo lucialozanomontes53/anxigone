@@ -1,0 +1,17 @@
+@if (victories().length === 0) {
+  <p class="victory-list__empty">Todavía no has registrado ninguna victoria.</p>
+} @else {
+  <ul class="victory-list">
+    @for (victory of victories(); track victory.id) {
+      <li class="victory-list__item">
+        <div>
+          <p class="victory-list__text">{{ victory.text }}</p>
+          <p class="victory-list__date">{{ formatDate(victory.occurredAt) }}</p>
+        </div>
+        <button type="button" class="victory-list__delete" (click)="deleted.emit(victory.id)">
+          Eliminar
+        </button>
+      </li>
+    }
+  </ul>
+}

@@ -39,4 +39,8 @@ export const routes: Routes = [
     path: 'lista-de-realidad',
     loadChildren: () => import('./features/reality-list/reality-list.routes').then((m) => m.REALITY_LIST_ROUTES),
   },
+  {
+    path: 'logros',
+    loadChildren: () => import('./features/victories/victories.routes').then((m) => m.VICTORIES_ROUTES),
+  },
 ];

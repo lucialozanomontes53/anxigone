@@ -45,6 +45,11 @@ const FEATURE_LINKS: readonly FeatureLink[] = [
     title: 'Mi Lista de Realidad',
     description: 'Frases guardadas para volver a los hechos cuando un pensamiento se hace grande.',
   },
+  {
+    path: '/logros',
+    title: 'Mis Logros Emocionales',
+    description: 'Registra tus pequeños avances: rachas, semana, mes y estadísticas.',
+  },
 ];
 
 @Component({

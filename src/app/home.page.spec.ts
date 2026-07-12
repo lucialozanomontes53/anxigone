@@ -32,4 +32,13 @@ describe('HomePage', () => {
       '/lista-de-realidad',
     );
   });
+
+  it('enlaza a Mis Logros Emocionales', async () => {
+    await render(HomePage, { providers: [provideRouter([])] });
+
+    expect(screen.getByRole('link', { name: /Mis Logros Emocionales/ })).toHaveAttribute(
+      'href',
+      '/logros',
+    );
+  });
 });
