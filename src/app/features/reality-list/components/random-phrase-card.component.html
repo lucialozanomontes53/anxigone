@@ -1,0 +1,18 @@
+<div class="random-phrase-card">
+  <h2 class="random-phrase-card__title">Frase para este momento</h2>
+
+  @if (currentPhrase(); as phrase) {
+    <p class="random-phrase-card__text">{{ phrase.text }}</p>
+  } @else {
+    <p class="random-phrase-card__empty">Pulsa el botón para ver una frase.</p>
+  }
+
+  <button
+    type="button"
+    class="button button--primary"
+    (click)="shuffle()"
+    [disabled]="phrases().length === 0"
+  >
+    Mostrar otra frase
+  </button>
+</div>

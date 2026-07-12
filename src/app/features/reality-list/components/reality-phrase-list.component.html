@@ -1,0 +1,34 @@
+@if (phrases().length === 0) {
+  <p class="reality-phrase-list__empty">Todavía no has guardado ninguna frase.</p>
+} @else {
+  <ul class="reality-phrase-list">
+    @for (phrase of phrases(); track phrase.id) {
+      <li class="reality-phrase-list__item">
+        <p class="reality-phrase-list__text">{{ phrase.text }}</p>
+        <div class="reality-phrase-list__actions">
+          <button
+            type="button"
+            class="reality-phrase-list__toggle"
+            [class.reality-phrase-list__toggle--active]="phrase.isFavorite"
+            [attr.aria-pressed]="phrase.isFavorite"
+            (click)="favoriteToggled.emit(phrase.id)"
+          >
+            {{ phrase.isFavorite ? '★ Favorita' : '☆ Favorita' }}
+          </button>
+          <button
+            type="button"
+            class="reality-phrase-list__toggle"
+            [class.reality-phrase-list__toggle--active]="phrase.isPriority"
+            [attr.aria-pressed]="phrase.isPriority"
+            (click)="priorityToggled.emit(phrase.id)"
+          >
+            {{ phrase.isPriority ? '📌 Prioritaria' : '📍 Prioritaria' }}
+          </button>
+          <button type="button" class="reality-phrase-list__delete" (click)="deleted.emit(phrase.id)">
+            Eliminar
+          </button>
+        </div>
+      </li>
+    }
+  </ul>
+}

@@ -23,4 +23,13 @@ describe('HomePage', () => {
       '/plan-de-crisis',
     );
   });
+
+  it('enlaza a Mi Lista de Realidad', async () => {
+    await render(HomePage, { providers: [provideRouter([])] });
+
+    expect(screen.getByRole('link', { name: /Mi Lista de Realidad/ })).toHaveAttribute(
+      'href',
+      '/lista-de-realidad',
+    );
+  });
 });

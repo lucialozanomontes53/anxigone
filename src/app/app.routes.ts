@@ -35,4 +35,8 @@ export const routes: Routes = [
     path: 'plan-de-crisis',
     loadChildren: () => import('./features/crisis-plan/crisis-plan.routes').then((m) => m.CRISIS_PLAN_ROUTES),
   },
+  {
+    path: 'lista-de-realidad',
+    loadChildren: () => import('./features/reality-list/reality-list.routes').then((m) => m.REALITY_LIST_ROUTES),
+  },
 ];

@@ -1,0 +1,19 @@
+<div class="reality-list-page">
+  <h1 class="reality-list-page__title">Mi Lista de Realidad</h1>
+  <p class="reality-list-page__subtitle">
+    Frases para volver a los hechos cuando un pensamiento impulsivo o una interpretación automática
+    se hacen grandes.
+  </p>
+
+  <app-random-phrase-card [phrases]="store.phrases()" />
+
+  <app-add-reality-phrase-form (added)="onAdded($event)" />
+
+  <h2 class="reality-list-page__section-title">Tus frases</h2>
+  <app-reality-phrase-list
+    [phrases]="store.phrases()"
+    (favoriteToggled)="onFavoriteToggled($event)"
+    (priorityToggled)="onPriorityToggled($event)"
+    (deleted)="onDeleted($event)"
+  />
+</div>

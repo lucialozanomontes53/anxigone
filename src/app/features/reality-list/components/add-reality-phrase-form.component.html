@@ -1,0 +1,19 @@
+<div class="add-reality-phrase-form">
+  <label class="add-reality-phrase-form__label" for="reality-phrase-draft">
+    Guarda una frase que te ayude a volver a los hechos.
+  </label>
+  <div class="add-reality-phrase-form__capture">
+    <input
+      id="reality-phrase-draft"
+      type="text"
+      class="add-reality-phrase-form__input"
+      placeholder="La ansiedad no es evidencia"
+      [value]="draft()"
+      (input)="onDraftInput($event)"
+      (keydown.enter)="add()"
+    />
+    <button type="button" class="button button--primary" (click)="add()" [disabled]="!canAdd()">
+      Guardar
+    </button>
+  </div>
+</div>

@@ -40,6 +40,11 @@ const FEATURE_LINKS: readonly FeatureLink[] = [
     title: 'Mi Plan de Crisis',
     description: 'Prepara ahora lo que quieras tener a mano en un momento difícil.',
   },
+  {
+    path: '/lista-de-realidad',
+    title: 'Mi Lista de Realidad',
+    description: 'Frases guardadas para volver a los hechos cuando un pensamiento se hace grande.',
+  },
 ];
 
 @Component({
