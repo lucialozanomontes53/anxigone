@@ -1,0 +1,35 @@
+<div class="activity-browser">
+  @for (level of energyLevels; track level) {
+    @if (activitiesFor(level).length > 0) {
+      <section class="activity-browser__section">
+        <h3 class="activity-browser__section-title">{{ energyLevelLabels[level] }}</h3>
+        <ul class="activity-browser__list">
+          @for (activity of activitiesFor(level); track activity.id) {
+            <li class="activity-browser__item">
+              <p class="activity-browser__title">{{ activity.title }}</p>
+              <p class="activity-browser__description">{{ activity.description }}</p>
+
+              @if (ratingTarget() === activity.id) {
+                <div class="activity-browser__rating" role="group" [attr.aria-label]="'¿Te ayudó ' + activity.title + '?'">
+                  <p class="activity-browser__rating-label">¿Te ayudó?</p>
+                  <div class="activity-browser__rating-options">
+                    @for (rating of helpfulnessRatings; track rating) {
+                      <button type="button" class="activity-browser__rating-option" (click)="rate(activity.id, rating)">
+                        {{ helpfulnessLabels[rating] }}
+                      </button>
+                    }
+                  </div>
+                  <button type="button" class="activity-browser__cancel" (click)="cancelRating()">Cancelar</button>
+                </div>
+              } @else {
+                <button type="button" class="button button--primary" (click)="markDone(activity.id)">
+                  Ya la hice
+                </button>
+              }
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  }
+</div>

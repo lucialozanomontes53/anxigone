@@ -50,6 +50,11 @@ const FEATURE_LINKS: readonly FeatureLink[] = [
     title: 'Mis Logros Emocionales',
     description: 'Registra tus pequeños avances: rachas, semana, mes y estadísticas.',
   },
+  {
+    path: '/actividades',
+    title: 'Lo Que Me Funciona',
+    description: 'Actividades por nivel de energía, propias o predefinidas, valoradas tras usarlas.',
+  },
 ];
 
 @Component({

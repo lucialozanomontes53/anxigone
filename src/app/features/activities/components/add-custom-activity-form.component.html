@@ -1,0 +1,47 @@
+<form class="add-custom-activity-form" (submit)="$event.preventDefault()">
+  <p class="add-custom-activity-form__title">Lo Que Me Funciona</p>
+  <p class="add-custom-activity-form__subtitle">Añade tus propias actividades: un libro, una serie, una ruta para caminar…</p>
+
+  <label class="add-custom-activity-form__label" for="activity-title">Título</label>
+  <input
+    id="activity-title"
+    type="text"
+    class="add-custom-activity-form__input"
+    placeholder="Ver un capítulo de mi serie favorita"
+    [value]="title()"
+    (input)="onTitleInput($event)"
+  />
+
+  <label class="add-custom-activity-form__label" for="activity-description">Descripción (opcional)</label>
+  <input
+    id="activity-description"
+    type="text"
+    class="add-custom-activity-form__input"
+    [value]="description()"
+    (input)="onDescriptionInput($event)"
+  />
+
+  <p class="add-custom-activity-form__label">Nivel de energía</p>
+  <div class="add-custom-activity-form__levels" role="group" aria-label="Nivel de energía">
+    @for (level of energyLevels; track level) {
+      <button
+        type="button"
+        class="add-custom-activity-form__level"
+        [class.add-custom-activity-form__level--selected]="energyLevel() === level"
+        [attr.aria-pressed]="energyLevel() === level"
+        (click)="selectEnergyLevel(level)"
+      >
+        {{ energyLevelLabels[level] }}
+      </button>
+    }
+  </div>
+
+  <button
+    type="button"
+    class="button button--primary button--block"
+    (click)="submit()"
+    [disabled]="!canSubmit()"
+  >
+    Añadir actividad
+  </button>
+</form>

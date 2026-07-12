@@ -41,4 +41,13 @@ describe('HomePage', () => {
       '/logros',
     );
   });
+
+  it('enlaza a Lo Que Me Funciona', async () => {
+    await render(HomePage, { providers: [provideRouter([])] });
+
+    expect(screen.getByRole('link', { name: /Lo Que Me Funciona/ })).toHaveAttribute(
+      'href',
+      '/actividades',
+    );
+  });
 });

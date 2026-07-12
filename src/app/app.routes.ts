@@ -43,4 +43,8 @@ export const routes: Routes = [
     path: 'logros',
     loadChildren: () => import('./features/victories/victories.routes').then((m) => m.VICTORIES_ROUTES),
   },
+  {
+    path: 'actividades',
+    loadChildren: () => import('./features/activities/activities.routes').then((m) => m.ACTIVITIES_ROUTES),
+  },
 ];

@@ -1,0 +1,12 @@
+@if (ranking().length === 0) {
+  <p class="effectiveness-ranking__empty">Marca alguna actividad como hecha para ver cuáles te ayudan más.</p>
+} @else {
+  <ol class="effectiveness-ranking">
+    @for (entry of ranking(); track entry.activityId) {
+      <li class="effectiveness-ranking__item">
+        <span class="effectiveness-ranking__title">{{ titleFor(entry.activityId) }}</span>
+        <span class="effectiveness-ranking__score">{{ formatScore(entry.averageScore) }}/4 · {{ entry.usageCount }}x</span>
+      </li>
+    }
+  </ol>
+}

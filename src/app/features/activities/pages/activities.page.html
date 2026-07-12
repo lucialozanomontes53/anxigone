@@ -1,0 +1,13 @@
+<div class="activities-page">
+  <h1 class="activities-page__title">Banco Personal de Actividades</h1>
+  <p class="activities-page__subtitle">
+    Actividades que sabes que te ayudan, además de las tuyas propias.
+  </p>
+
+  <app-activity-browser [activities]="store.allActivities()" (logged)="onLogged($event)" />
+
+  <app-add-custom-activity-form (added)="onAdded($event)" />
+
+  <h2 class="activities-page__section-title">Lo que más te ha ayudado</h2>
+  <app-effectiveness-ranking [ranking]="store.effectivenessRanking()" [activities]="store.allActivities()" />
+</div>
