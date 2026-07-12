@@ -1,0 +1,13 @@
+<section class="reviewed-stats">
+  <h3 class="reviewed-stats__title">Revisadas ({{ stats().total }})</h3>
+
+  @if (stats().total === 0) {
+    <p class="reviewed-stats__empty">Todavía no has revisado ninguna preocupación.</p>
+  } @else {
+    <ul class="reviewed-stats__list">
+      <li>Se resolvieron solas: <strong>{{ stats().resolvedItselfPct }}%</strong></li>
+      <li>Seguían siendo importantes: <strong>{{ stats().stillImportantPct }}%</strong></li>
+      <li>Eran tan graves como parecían: <strong>{{ stats().asSeriousAsExpectedPct }}%</strong></li>
+    </ul>
+  }
+</section>

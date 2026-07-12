@@ -1,0 +1,19 @@
+<div class="uncertainty-box-page">
+  <h1 class="uncertainty-box-page__title">Caja de Incertidumbre</h1>
+  <p class="uncertainty-box-page__subtitle">
+    Guarda una preocupación y déjala descansar hasta que llegue el momento de revisarla.
+  </p>
+
+  <app-new-worry-form (submitted)="onSubmitted($event)" />
+
+  @if (store.unlockedPendingEntries().length > 0) {
+    <h2 class="uncertainty-box-page__section-title">Para revisar ahora</h2>
+    @for (entry of store.unlockedPendingEntries(); track entry.id) {
+      <app-worry-review-form [entry]="entry" (reviewed)="onReviewed(entry.id, $event)" />
+    }
+  }
+
+  <app-sealed-worries-list [entries]="store.sealedEntries()" />
+
+  <app-reviewed-worries-stats [stats]="store.reviewStats()" />
+</div>

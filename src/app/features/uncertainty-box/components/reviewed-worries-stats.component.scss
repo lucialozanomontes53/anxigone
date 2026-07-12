@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.reviewed-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+
+  &__title {
+    font-size: var(--font-size-base);
+    color: var(--color-primary);
+  }
+
+  &__empty {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    list-style: none;
+  }
+}

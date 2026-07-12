@@ -1,0 +1,46 @@
+<div class="crisis-plan-edit-page">
+  <h1 class="crisis-plan-edit-page__title">Mi Plan de Crisis</h1>
+  <p class="crisis-plan-edit-page__subtitle">
+    Prepara ahora, con calma, lo que quieras tener a mano en un momento difícil.
+  </p>
+
+  <app-editable-string-list
+    label="Señales de alerta"
+    [items]="store.plan().warningSigns"
+    (itemsChanged)="onListChanged('warningSigns', $event)"
+  />
+
+  <app-editable-string-list
+    label="Cosas que empeoran mi ansiedad"
+    [items]="store.plan().worseningTriggers"
+    (itemsChanged)="onListChanged('worseningTriggers', $event)"
+  />
+
+  <app-editable-string-list
+    label="Cosas que suelen ayudarme"
+    [items]="store.plan().helpfulActions"
+    (itemsChanged)="onListChanged('helpfulActions', $event)"
+  />
+
+  <app-editable-string-list
+    label="Recordatorios importantes"
+    [items]="store.plan().reminders"
+    (itemsChanged)="onListChanged('reminders', $event)"
+  />
+
+  <app-editable-string-list
+    label="Razones para no actuar impulsivamente"
+    [items]="store.plan().reasonsNotToAct"
+    (itemsChanged)="onListChanged('reasonsNotToAct', $event)"
+  />
+
+  <app-support-contact-form
+    [contacts]="store.plan().supportContacts"
+    (added)="onContactAdded($event)"
+    (removed)="onContactRemoved($event)"
+  />
+
+  <a class="crisis-plan-edit-page__activation-link" routerLink="/plan-de-crisis/activar">
+    Ver la pantalla de "No estoy bien"
+  </a>
+</div>

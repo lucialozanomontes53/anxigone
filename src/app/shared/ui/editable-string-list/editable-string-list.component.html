@@ -1,0 +1,33 @@
+<div class="editable-string-list">
+  <p class="editable-string-list__label">{{ label() }}</p>
+
+  @if (items().length > 0) {
+    <ul class="editable-string-list__list">
+      @for (item of items(); track item; let i = $index) {
+        <li class="editable-string-list__item">
+          <span class="editable-string-list__text">{{ item }}</span>
+          <button
+            type="button"
+            class="editable-string-list__remove"
+            [attr.aria-label]="'Eliminar ' + item"
+            (click)="removeItem(i)"
+          >
+            ×
+          </button>
+        </li>
+      }
+    </ul>
+  }
+
+  <div class="editable-string-list__add">
+    <input
+      type="text"
+      class="editable-string-list__input"
+      [attr.aria-label]="'Añadir a ' + label()"
+      [value]="draft()"
+      (input)="onDraftInput($event)"
+      (keydown.enter)="addItem()"
+    />
+    <button type="button" class="editable-string-list__add-button" (click)="addItem()">Añadir</button>
+  </div>
+</div>

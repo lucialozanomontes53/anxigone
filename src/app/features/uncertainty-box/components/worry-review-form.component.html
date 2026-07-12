@@ -1,0 +1,72 @@
+<article class="worry-review">
+  <p class="worry-review__text">{{ entry().worryText }}</p>
+
+  <p class="worry-review__question">¿Sigue siendo importante?</p>
+  <div class="worry-review__yes-no">
+    <button
+      type="button"
+      class="button"
+      [class.button--primary]="stillImportant() === true"
+      (click)="stillImportant.set(true)"
+    >
+      Sí
+    </button>
+    <button
+      type="button"
+      class="button"
+      [class.button--primary]="stillImportant() === false"
+      (click)="stillImportant.set(false)"
+    >
+      No
+    </button>
+  </div>
+
+  <p class="worry-review__question">¿Se resolvió sola?</p>
+  <div class="worry-review__yes-no">
+    <button
+      type="button"
+      class="button"
+      [class.button--primary]="resolvedItself() === true"
+      (click)="resolvedItself.set(true)"
+    >
+      Sí
+    </button>
+    <button
+      type="button"
+      class="button"
+      [class.button--primary]="resolvedItself() === false"
+      (click)="resolvedItself.set(false)"
+    >
+      No
+    </button>
+  </div>
+
+  <p class="worry-review__question">¿Era tan grave como parecía?</p>
+  <div class="worry-review__yes-no">
+    <button
+      type="button"
+      class="button"
+      [class.button--primary]="asSeriousAsExpected() === true"
+      (click)="asSeriousAsExpected.set(true)"
+    >
+      Sí
+    </button>
+    <button
+      type="button"
+      class="button"
+      [class.button--primary]="asSeriousAsExpected() === false"
+      (click)="asSeriousAsExpected.set(false)"
+    >
+      No
+    </button>
+  </div>
+
+  <button
+    type="button"
+    class="button button--primary button--block"
+    (click)="submit()"
+    [disabled]="!canSubmit()"
+  >
+    Guardar revisión
+  </button>
+</article>

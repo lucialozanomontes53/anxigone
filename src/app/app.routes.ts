@@ -26,4 +26,13 @@ export const routes: Routes = [
         (m) => m.MENTAL_ORGANIZER_ROUTES,
       ),
   },
+  {
+    path: 'caja-de-incertidumbre',
+    loadChildren: () =>
+      import('./features/uncertainty-box/uncertainty-box.routes').then((m) => m.UNCERTAINTY_BOX_ROUTES),
+  },
+  {
+    path: 'plan-de-crisis',
+    loadChildren: () => import('./features/crisis-plan/crisis-plan.routes').then((m) => m.CRISIS_PLAN_ROUTES),
+  },
 ];

@@ -1,0 +1,18 @@
+<section class="sealed-worries-list">
+  <h3 class="sealed-worries-list__title">Selladas ({{ entries().length }})</h3>
+
+  @if (entries().length === 0) {
+    <p class="sealed-worries-list__empty">No tienes preocupaciones selladas ahora mismo.</p>
+  } @else {
+    <ul class="sealed-worries-list__list">
+      @for (entry of entries(); track entry.id) {
+        <li class="sealed-worries-list__item">
+          <p class="sealed-worries-list__text">{{ entry.worryText }}</p>
+          <p class="sealed-worries-list__revisit">
+            Se desbloquea el {{ formatDate(entry.revisitAt) }}
+          </p>
+        </li>
+      }
+    </ul>
+  }
+</section>

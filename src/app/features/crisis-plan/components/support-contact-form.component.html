@@ -1,0 +1,65 @@
+<div class="support-contact-form">
+  <p class="support-contact-form__label">Personas de apoyo</p>
+
+  @if (contacts().length > 0) {
+    <ul class="support-contact-form__list">
+      @for (contact of contacts(); track contact.id) {
+        <li class="support-contact-form__item">
+          <div>
+            <p class="support-contact-form__name">{{ contact.name }}</p>
+            <a class="support-contact-form__phone" [href]="'tel:' + contact.phone">{{ contact.phone }}</a>
+            @if (contact.note) {
+              <p class="support-contact-form__note">{{ contact.note }}</p>
+            }
+          </div>
+          <button
+            type="button"
+            class="support-contact-form__remove"
+            [attr.aria-label]="'Eliminar contacto ' + contact.name"
+            (click)="removed.emit(contact.id)"
+          >
+            ×
+          </button>
+        </li>
+      }
+    </ul>
+  }
+
+  <form class="support-contact-form__form" (submit)="$event.preventDefault()">
+    <label class="support-contact-form__field-label" for="contact-name">Nombre</label>
+    <input
+      id="contact-name"
+      type="text"
+      class="support-contact-form__input"
+      [value]="name()"
+      (input)="onNameInput($event)"
+    />
+
+    <label class="support-contact-form__field-label" for="contact-phone">Teléfono</label>
+    <input
+      id="contact-phone"
+      type="tel"
+      class="support-contact-form__input"
+      [value]="phone()"
+      (input)="onPhoneInput($event)"
+    />
+
+    <label class="support-contact-form__field-label" for="contact-note">Nota (opcional)</label>
+    <input
+      id="contact-note"
+      type="text"
+      class="support-contact-form__input"
+      [value]="note()"
+      (input)="onNoteInput($event)"
+    />
+
+    <button
+      type="button"
+      class="button button--block"
+      (click)="submit()"
+      [disabled]="!canSubmit()"
+    >
+      Añadir contacto
+    </button>
+  </form>
+</div>

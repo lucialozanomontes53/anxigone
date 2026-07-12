@@ -1,0 +1,77 @@
+:host {
+  display: block;
+}
+
+.support-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-background);
+  }
+
+  &__name {
+    font-weight: 600;
+  }
+
+  &__phone {
+    color: var(--color-primary);
+  }
+
+  &__note {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  &__remove {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+    color: var(--color-danger);
+    font-size: var(--font-size-lg);
+    line-height: 1;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  &__field-label {
+    font-weight: 600;
+  }
+
+  &__input {
+    width: 100%;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
+    min-height: var(--touch-target-min);
+
+    &:focus-visible {
+      outline: 2px solid var(--color-focus-ring);
+      outline-offset: 2px;
+    }
+  }
+}

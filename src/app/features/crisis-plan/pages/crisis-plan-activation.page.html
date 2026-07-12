@@ -1,0 +1,96 @@
+<div class="crisis-plan-activation">
+  <h1 class="crisis-plan-activation__title">Estoy aquí contigo</h1>
+  <p class="crisis-plan-activation__subtitle">Vamos paso a paso. Esto es lo que preparaste para un momento así.</p>
+
+  @if (store.plan().warningSigns.length > 0) {
+    <section class="crisis-plan-activation__section">
+      <h2 class="crisis-plan-activation__section-title">Tus señales de alerta</h2>
+      <ul class="crisis-plan-activation__list">
+        @for (sign of store.plan().warningSigns; track sign) {
+          <li>{{ sign }}</li>
+        }
+      </ul>
+    </section>
+  }
+
+  @if (store.plan().reminders.length > 0) {
+    <section class="crisis-plan-activation__section">
+      <h2 class="crisis-plan-activation__section-title">Recordatorios importantes</h2>
+      <ul class="crisis-plan-activation__list">
+        @for (reminder of store.plan().reminders; track reminder) {
+          <li>{{ reminder }}</li>
+        }
+      </ul>
+    </section>
+  }
+
+  <section class="crisis-plan-activation__section">
+    <h2 class="crisis-plan-activation__section-title">Herramientas de regulación</h2>
+    <div class="crisis-plan-activation__tool-buttons">
+      <button
+        type="button"
+        class="crisis-plan-activation__tool-button"
+        [class.crisis-plan-activation__tool-button--active]="activeTool() === 'breathing'"
+        (click)="toggleTool('breathing')"
+      >
+        Respirar
+      </button>
+      <button
+        type="button"
+        class="crisis-plan-activation__tool-button"
+        [class.crisis-plan-activation__tool-button--active]="activeTool() === 'grounding'"
+        (click)="toggleTool('grounding')"
+      >
+        Ejercicio de grounding
+      </button>
+    </div>
+
+    @switch (activeTool()) {
+      @case ('breathing') {
+        <app-breathing-timer [pattern]="diaphragmaticPattern" [cycles]="6" />
+      }
+      @case ('grounding') {
+        <app-grounding-guide [steps]="groundingSteps" />
+      }
+    }
+
+    <a class="crisis-plan-activation__link" routerLink="/herramientas">Ver el resto de herramientas</a>
+  </section>
+
+  @if (store.plan().helpfulActions.length > 0) {
+    <section class="crisis-plan-activation__section">
+      <h2 class="crisis-plan-activation__section-title">Cosas que suelen ayudarte</h2>
+      <ul class="crisis-plan-activation__list">
+        @for (action of store.plan().helpfulActions; track action) {
+          <li>{{ action }}</li>
+        }
+      </ul>
+    </section>
+  }
+
+  @if (store.plan().supportContacts.length > 0) {
+    <section class="crisis-plan-activation__section">
+      <h2 class="crisis-plan-activation__section-title">Personas de apoyo</h2>
+      <ul class="crisis-plan-activation__list">
+        @for (contact of store.plan().supportContacts; track contact.id) {
+          <li>
+            {{ contact.name }} — <a [href]="'tel:' + contact.phone">{{ contact.phone }}</a>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
+  @if (store.plan().reasonsNotToAct.length > 0) {
+    <section class="crisis-plan-activation__section">
+      <h2 class="crisis-plan-activation__section-title">Razones para no actuar impulsivamente</h2>
+      <ul class="crisis-plan-activation__list">
+        @for (reason of store.plan().reasonsNotToAct; track reason) {
+          <li>{{ reason }}</li>
+        }
+      </ul>
+    </section>
+  }
+
+  <a class="crisis-plan-activation__edit-link" routerLink="/plan-de-crisis">Editar mi plan de crisis</a>
+</div>

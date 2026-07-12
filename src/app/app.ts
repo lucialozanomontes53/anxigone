@@ -3,10 +3,11 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { ActiveBlockingBannerComponent } from './active-blocking-banner.component';
 import { BottomNavComponent } from './bottom-nav.component';
+import { CrisisFabComponent } from './crisis-fab.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterLink, RouterOutlet, BottomNavComponent, ActiveBlockingBannerComponent],
+  imports: [RouterLink, RouterOutlet, BottomNavComponent, ActiveBlockingBannerComponent, CrisisFabComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

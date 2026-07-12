@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  position: fixed;
+  right: var(--space-3);
+  bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px) + var(--space-3));
+  z-index: 60;
+}
+
+.crisis-fab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target-min);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-danger);
+  color: var(--color-text-on-primary);
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  &__icon {
+    display: flex;
+    width: 20px;
+    height: 20px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__label {
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+  }
+}

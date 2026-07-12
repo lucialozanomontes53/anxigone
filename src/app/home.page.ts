@@ -30,6 +30,16 @@ const FEATURE_LINKS: readonly FeatureLink[] = [
     title: 'Organizador mental',
     description: 'Vacía la cabeza y clasifica: acción, espera, no depende de mí, soltar.',
   },
+  {
+    path: '/caja-de-incertidumbre',
+    title: 'Caja de Incertidumbre',
+    description: 'Guarda una preocupación y déjala descansar hasta que llegue el momento de revisarla.',
+  },
+  {
+    path: '/plan-de-crisis',
+    title: 'Mi Plan de Crisis',
+    description: 'Prepara ahora lo que quieras tener a mano en un momento difícil.',
+  },
 ];
 
 @Component({

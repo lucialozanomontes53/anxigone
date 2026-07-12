@@ -1,0 +1,50 @@
+<form class="new-worry-form" (submit)="$event.preventDefault()">
+  <label class="new-worry-form__label" for="worry-text">¿Qué preocupación quieres guardar?</label>
+  <textarea
+    id="worry-text"
+    class="new-worry-form__textarea"
+    rows="3"
+    placeholder="¿Por qué no me ha respondido?"
+    [value]="worryText()"
+    (input)="onWorryTextInput($event)"
+  ></textarea>
+
+  <p class="new-worry-form__label">¿Cuándo quieres revisarla?</p>
+  <div class="new-worry-form__presets" role="group" aria-label="Cuándo revisar la preocupación">
+    @for (preset of presetOptions; track preset) {
+      <button
+        type="button"
+        class="new-worry-form__preset"
+        [class.new-worry-form__preset--selected]="selectedPreset() === preset"
+        [attr.aria-pressed]="selectedPreset() === preset"
+        (click)="selectPreset(preset)"
+      >
+        {{ presetLabels[preset] }}
+      </button>
+    }
+  </div>
+
+  @if (selectedPreset() === 'custom') {
+    <label class="new-worry-form__label" for="custom-date">Fecha de revisión</label>
+    <input
+      id="custom-date"
+      type="date"
+      class="new-worry-form__input"
+      [value]="customDate()"
+      (input)="onCustomDateInput($event)"
+    />
+  }
+
+  <p class="new-worry-form__notice">
+    Una vez guardada, la preocupación queda sellada: no podrás editarla ni consultarla antes de la fecha elegida.
+  </p>
+
+  <button
+    type="button"
+    class="button button--primary button--block"
+    (click)="submit()"
+    [disabled]="!canSubmit()"
+  >
+    Sellar preocupación
+  </button>
+</form>
