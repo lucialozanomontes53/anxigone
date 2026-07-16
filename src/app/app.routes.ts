@@ -47,4 +47,9 @@ export const routes: Routes = [
     path: 'actividades',
     loadChildren: () => import('./features/activities/activities.routes').then((m) => m.ACTIVITIES_ROUTES),
   },
+  {
+    path: 'objetivos',
+    loadChildren: () =>
+      import('./features/wellbeing-goals/wellbeing-goals.routes').then((m) => m.WELLBEING_GOALS_ROUTES),
+  },
 ];

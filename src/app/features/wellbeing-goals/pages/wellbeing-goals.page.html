@@ -1,0 +1,24 @@
+<div class="wellbeing-goals-page">
+  <h1 class="wellbeing-goals-page__title">Objetivos de Bienestar</h1>
+  <p class="wellbeing-goals-page__subtitle">
+    No orientados a productividad: pequeños compromisos contigo misma.
+  </p>
+
+  <app-add-goal-form (added)="onAdded($event)" />
+
+  <h2 class="wellbeing-goals-page__section-title">Tus objetivos</h2>
+  @if (store.goals().length === 0) {
+    <p class="wellbeing-goals-page__empty">Todavía no has añadido ningún objetivo.</p>
+  } @else {
+    <div class="wellbeing-goals-page__list">
+      @for (goal of store.goals(); track goal.id) {
+        <app-goal-card
+          [goal]="goal"
+          [referenceNow]="store.referenceNow()"
+          (checkedIn)="onCheckedIn(goal.id, $event)"
+          (deleted)="onDeleted(goal.id)"
+        />
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,74 @@
+<article class="goal-card">
+  <p class="goal-card__text">{{ goal().text }}</p>
+  @if (goal().targetDate) {
+    <p class="goal-card__target-date">Fecha objetivo: {{ formatDate(goal().targetDate!) }}</p>
+  }
+
+  <div class="goal-card__progress">
+    <span>Esta semana: {{ weeklyProgress().metPct }}% ({{ weeklyProgress().total }})</span>
+    <span>Este mes: {{ monthlyProgress().metPct }}% ({{ monthlyProgress().total }})</span>
+  </div>
+
+  @if (goal().checkIns.length > 0) {
+    <details class="goal-card__history">
+      <summary>Reflexiones anteriores ({{ goal().checkIns.length }})</summary>
+      <ul class="goal-card__reflections">
+        @for (checkIn of goal().checkIns; track checkIn.id) {
+          <li>
+            <strong>{{ formatDate(checkIn.date) }}</strong> — {{ checkIn.metGoal ? 'Cumplido' : 'No cumplido' }}
+            @if (checkIn.reflection) {
+              <p>{{ checkIn.reflection }}</p>
+            }
+          </li>
+        }
+      </ul>
+    </details>
+  }
+
+  @if (showCheckInForm()) {
+    <div class="goal-card__check-in">
+      <p class="goal-card__question">¿Has cumplido este objetivo?</p>
+      <div class="goal-card__yes-no">
+        <button
+          type="button"
+          class="button"
+          [class.button--primary]="metGoal() === true"
+          (click)="metGoal.set(true)"
+        >
+          Sí
+        </button>
+        <button
+          type="button"
+          class="button"
+          [class.button--primary]="metGoal() === false"
+          (click)="metGoal.set(false)"
+        >
+          No
+        </button>
+      </div>
+
+      <label class="goal-card__reflection-label" for="goal-reflection-{{ goal().id }}">
+        Reflexión (opcional)
+      </label>
+      <input
+        id="goal-reflection-{{ goal().id }}"
+        type="text"
+        class="goal-card__reflection-input"
+        [value]="reflection()"
+        (input)="onReflectionInput($event)"
+      />
+
+      <div class="goal-card__check-in-actions">
+        <button type="button" class="button button--primary" (click)="submitCheckIn()" [disabled]="metGoal() === null">
+          Guardar
+        </button>
+        <button type="button" class="goal-card__cancel" (click)="cancelCheckIn()">Cancelar</button>
+      </div>
+    </div>
+  } @else {
+    <div class="goal-card__actions">
+      <button type="button" class="button button--primary" (click)="openCheckIn()">Registrar check-in</button>
+      <button type="button" class="goal-card__delete" (click)="deleted.emit()">Eliminar objetivo</button>
+    </div>
+  }
+</article>

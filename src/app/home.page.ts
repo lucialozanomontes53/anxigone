@@ -55,6 +55,11 @@ const FEATURE_LINKS: readonly FeatureLink[] = [
     title: 'Lo Que Me Funciona',
     description: 'Actividades por nivel de energía, propias o predefinidas, valoradas tras usarlas.',
   },
+  {
+    path: '/objetivos',
+    title: 'Objetivos de Bienestar',
+    description: 'Pequeños compromisos contigo misma, no orientados a productividad.',
+  },
 ];
 
 @Component({

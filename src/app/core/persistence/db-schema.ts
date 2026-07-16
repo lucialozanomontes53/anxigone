@@ -7,7 +7,7 @@ export const DB_NAME = 'espacio-seguro-db';
  * con una versión anterior se quedan sin el store nuevo y las operaciones
  * sobre él fallan con "NotFoundError: object store was not found".
  */
-export const DB_VERSION = 8;
+export const DB_VERSION = 9;
 
 export interface IndexDefinition {
   readonly name: string;
@@ -48,6 +48,7 @@ export const APP_DB_STORES: readonly StoreDefinition[] = [
   { name: 'victories', keyPath: 'id' },
   { name: 'activities', keyPath: 'id' },
   { name: 'activityUsages', keyPath: 'id' },
+  { name: 'wellbeingGoals', keyPath: 'id' },
 ];
 
 export const DEFAULT_DB_CONFIG: DbConfig = {

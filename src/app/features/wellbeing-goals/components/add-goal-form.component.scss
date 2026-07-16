@@ -1,0 +1,54 @@
+:host {
+  display: block;
+}
+
+.add-goal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__field-label {
+    font-weight: 600;
+    margin-top: var(--space-2);
+  }
+
+  &__presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  &__preset {
+    padding: var(--space-2) var(--space-4);
+    min-height: var(--touch-target-min);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+  }
+
+  &__capture {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  &__input {
+    flex: 1;
+    width: 100%;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
+    min-height: var(--touch-target-min);
+
+    &:focus-visible {
+      outline: 2px solid var(--color-focus-ring);
+      outline-offset: 2px;
+    }
+  }
+}

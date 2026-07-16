@@ -50,4 +50,13 @@ describe('HomePage', () => {
       '/actividades',
     );
   });
+
+  it('enlaza a Objetivos de Bienestar', async () => {
+    await render(HomePage, { providers: [provideRouter([])] });
+
+    expect(screen.getByRole('link', { name: /Objetivos de Bienestar/ })).toHaveAttribute(
+      'href',
+      '/objetivos',
+    );
+  });
 });

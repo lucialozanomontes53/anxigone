@@ -1,0 +1,34 @@
+<div class="add-goal-form">
+  <p class="add-goal-form__label">Añade un objetivo de bienestar</p>
+  <div class="add-goal-form__presets" role="group" aria-label="Objetivos frecuentes">
+    @for (preset of presets; track preset) {
+      <button type="button" class="add-goal-form__preset" (click)="addPreset(preset)">
+        {{ preset }}
+      </button>
+    }
+  </div>
+
+  <label class="add-goal-form__field-label" for="goal-target-date">Fecha objetivo (opcional)</label>
+  <input
+    id="goal-target-date"
+    type="date"
+    class="add-goal-form__input"
+    [value]="targetDate()"
+    (input)="onTargetDateInput($event)"
+  />
+
+  <div class="add-goal-form__capture">
+    <input
+      type="text"
+      class="add-goal-form__input"
+      aria-label="Otro objetivo"
+      placeholder="Otro objetivo…"
+      [value]="draft()"
+      (input)="onDraftInput($event)"
+      (keydown.enter)="addDraft()"
+    />
+    <button type="button" class="button button--primary" (click)="addDraft()" [disabled]="draft().trim().length === 0">
+      Guardar
+    </button>
+  </div>
+</div>
