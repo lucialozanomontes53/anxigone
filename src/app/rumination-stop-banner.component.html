@@ -1,0 +1,7 @@
+@if (store.activeSession(); as session) {
+  <a class="rumination-stop-banner" routerLink="/ya-he-pensado-suficiente" role="status">
+    <span class="rumination-stop-banner__dot" aria-hidden="true"></span>
+    <span class="rumination-stop-banner__text">Ya He Pensado Suficiente activo</span>
+    <span class="rumination-stop-banner__time">{{ formattedRemaining() }}</span>
+  </a>
+}

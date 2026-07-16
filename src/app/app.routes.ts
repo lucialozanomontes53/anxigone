@@ -52,4 +52,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/wellbeing-goals/wellbeing-goals.routes').then((m) => m.WELLBEING_GOALS_ROUTES),
   },
+  {
+    path: 'ya-he-pensado-suficiente',
+    loadChildren: () =>
+      import('./features/anti-rumination-mode/anti-rumination-mode.routes').then(
+        (m) => m.ANTI_RUMINATION_MODE_ROUTES,
+      ),
+  },
 ];

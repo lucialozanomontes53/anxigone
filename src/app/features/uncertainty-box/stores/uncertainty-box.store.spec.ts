@@ -106,6 +106,10 @@ describe('UncertaintyBoxStore', () => {
 
     const firstId = store.unlockedPendingEntries().find((entry) => entry.worryText === 'primera revisada')?.id ?? '';
     await store.reviewEntry(firstId, review);
+    // Pequeña espera real para garantizar que reviewedAt (basado en el reloj real) avanza
+    // entre ambas revisiones: en una ejecución rápida, dos `clock.now()` seguidos pueden
+    // caer en el mismo milisegundo y empatar en el ordenamiento.
+    await new Promise((resolve) => setTimeout(resolve, 5));
     const secondId = store.unlockedPendingEntries().find((entry) => entry.worryText === 'segunda revisada')?.id ?? '';
     await store.reviewEntry(secondId, review);
 

@@ -60,6 +60,11 @@ const FEATURE_LINKS: readonly FeatureLink[] = [
     title: 'Objetivos de Bienestar',
     description: 'Pequeños compromisos contigo misma, no orientados a productividad.',
   },
+  {
+    path: '/ya-he-pensado-suficiente',
+    title: 'Ya He Pensado Suficiente',
+    description: 'Interrumpe la rumiación con un rato dedicado solo a calmarte.',
+  },
 ];
 
 @Component({

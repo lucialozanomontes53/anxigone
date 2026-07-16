@@ -4,10 +4,18 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { ActiveBlockingBannerComponent } from './active-blocking-banner.component';
 import { BottomNavComponent } from './bottom-nav.component';
 import { CrisisFabComponent } from './crisis-fab.component';
+import { RuminationStopBannerComponent } from './rumination-stop-banner.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterLink, RouterOutlet, BottomNavComponent, ActiveBlockingBannerComponent, CrisisFabComponent],
+  imports: [
+    RouterLink,
+    RouterOutlet,
+    BottomNavComponent,
+    ActiveBlockingBannerComponent,
+    CrisisFabComponent,
+    RuminationStopBannerComponent,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

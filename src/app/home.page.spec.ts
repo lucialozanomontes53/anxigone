@@ -59,4 +59,13 @@ describe('HomePage', () => {
       '/objetivos',
     );
   });
+
+  it('enlaza a Ya He Pensado Suficiente', async () => {
+    await render(HomePage, { providers: [provideRouter([])] });
+
+    expect(screen.getByRole('link', { name: /Ya He Pensado Suficiente/ })).toHaveAttribute(
+      'href',
+      '/ya-he-pensado-suficiente',
+    );
+  });
 });

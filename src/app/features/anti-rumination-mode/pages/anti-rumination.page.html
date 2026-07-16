@@ -1,0 +1,65 @@
+@if (store.activeSession(); as session) {
+  <div class="anti-rumination">
+    <h1 class="anti-rumination__title">Ya has pensado bastante por ahora</h1>
+    <p class="anti-rumination__subtitle">No vamos a seguir analizando el problema.</p>
+    <p class="anti-rumination__subtitle">Vamos a ayudarte a salir del bucle.</p>
+
+    <p class="anti-rumination__countdown-label">Tiempo restante</p>
+    <app-countdown-timer
+      [durationSec]="initialRemainingSec()"
+      [autoStart]="true"
+      [hideControls]="true"
+      (finished)="finish()"
+    />
+
+    <p class="anti-rumination__options-label">Herramientas calmantes</p>
+    <div class="anti-rumination__tool-buttons">
+      <button
+        type="button"
+        class="anti-rumination__tool-button"
+        [class.anti-rumination__tool-button--active]="activeTool() === 'breathing'"
+        (click)="toggleTool('breathing')"
+      >
+        Respirar
+      </button>
+      <button
+        type="button"
+        class="anti-rumination__tool-button"
+        [class.anti-rumination__tool-button--active]="activeTool() === 'grounding'"
+        (click)="toggleTool('grounding')"
+      >
+        Ejercicio de grounding
+      </button>
+      <a class="anti-rumination__tool-button" routerLink="/actividades">Ver actividades</a>
+    </div>
+
+    @switch (activeTool()) {
+      @case ('breathing') {
+        <app-breathing-timer [pattern]="diaphragmaticPattern" [cycles]="6" />
+      }
+      @case ('grounding') {
+        <app-grounding-guide [steps]="groundingSteps" />
+      }
+    }
+
+    <button type="button" class="button button--primary button--block" (click)="finish()">
+      Ya estoy mejor, terminar
+    </button>
+  </div>
+} @else {
+  <div class="anti-rumination">
+    <h1 class="anti-rumination__title">Ya He Pensado Suficiente</h1>
+    <p class="anti-rumination__subtitle">
+      Interrumpe la rumiación durante un rato dedicado solo a calmarte, sin seguir dándole vueltas.
+    </p>
+
+    <p class="anti-rumination__duration-label">¿Cuánto tiempo quieres dedicarte?</p>
+    <div class="anti-rumination__durations" role="group" aria-label="Duración en minutos">
+      @for (duration of durations; track duration) {
+        <button type="button" class="anti-rumination__duration" (click)="start(duration)">
+          {{ duration }} min
+        </button>
+      }
+    </div>
+  </div>
+}
